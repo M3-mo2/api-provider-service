@@ -208,11 +208,21 @@ class Database:
         # Create data directory if not exists
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
 
-        # Create engine
-        self.engine = create_engine(f"sqlite:///{self.db_path}", echo=False)
+        # Create engine with SQLite thread safety
+        self.engine = create_engine(
+            f"sqlite:///{self.db_path}",
+            echo=False,
+            connect_args={"check_same_thread": False},
+        )
 
-        # Create all tables
-        Base.metadata.create_all(self.engine)
+        # Create all tables (safe: checkfirst=True by default)
+        try:
+            Base.metadata.create_all(self.engine)
+        except Exception as e:
+            if "already exists" in str(e):
+                pass
+            else:
+                raise e
 
         # Create session factory
         self.Session = sessionmaker(bind=self.engine)
