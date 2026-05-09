@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Models - API Provider Service</title>
+    <link rel="stylesheet" href="/css/github-dark.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="navbar-brand">
+                    🔥 API Provider
+                </div>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item">
+                        <a href="/dashboard" class="sidebar-nav-link">
+                            📊 Dashboard
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/keys" class="sidebar-nav-link">
+                            🔑 API Keys
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/models" class="sidebar-nav-link active">
+                            🤖 Models
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/monitor" class="sidebar-nav-link">
+                            📡 Monitor
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/settings" class="sidebar-nav-link">
+                            ⚙️ Settings
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/" class="sidebar-nav-link">
+                            📖 Documentation
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link" onclick="logout(); return false;">
+                            🚪 Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <div class="action-bar">
+                    <div class="action-bar-left">
+                        <h1>Models</h1>
+                    </div>
+                    <div class="action-bar-right">
+                        <button class="btn btn-primary" onclick="showAddModelModal()">
+                            + Add Model
+                        </button>
+                    </div>
+                </div>
+
+                <p class="text-secondary mb-3">Configure Fireworks.ai models for your API service</p>
+
+                <!-- Models Table -->
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Display Name</th>
+                                    <th>Fireworks Model ID</th>
+                                    <th>Type</th>
+                                    <th>Context Length</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="models-table">
+                                <tr>
+                                    <td colspan="6" class="text-center text-secondary">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Model Modal -->
+    <div id="model-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">Add Model</h3>
+                <button class="btn btn-secondary btn-sm" onclick="hideModelModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <form id="model-form">
+                    <input type="hidden" id="model-id">
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="model-name">Name</label>
+                        <input type="text" id="model-name" class="input" placeholder="e.g., llama-3.1-8b" required>
+                        <span class="form-help">Internal name for this model</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="model-fireworks-id">Fireworks Model ID</label>
+                        <input type="text" id="model-fireworks-id" class="input" placeholder="accounts/fireworks/models/llama-v3p1-8b-instruct" required>
+                        <span class="form-help">Full Fireworks model identifier</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="model-display-name">Display Name</label>
+                        <input type="text" id="model-display-name" class="input" placeholder="Llama 3.1 8B Instruct">
+                        <span class="form-help">Friendly name shown to users</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="model-description">Description</label>
+                        <textarea id="model-description" class="textarea" placeholder="Model description..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="model-type">Model Type</label>
+                        <select id="model-type" class="select">
+                            <option value="chat">Chat</option>
+                            <option value="completion">Completion</option>
+                            <option value="embedding">Embedding</option>
+                            <option value="image">Image</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="model-context-length">Context Length</label>
+                        <input type="number" id="model-context-length" class="input" placeholder="8192">
+                        <span class="form-help">Maximum context window size</span>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="form-group">
+                            <label class="form-label" for="model-input-price">Input Price (per 1M tokens)</label>
+                            <input type="number" id="model-input-price" class="input" placeholder="0.0001" step="0.0001">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="model-output-price">Output Price (per 1M tokens)</label>
+                            <input type="number" id="model-output-price" class="input" placeholder="0.0003" step="0.0001">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input type="checkbox" id="model-active" checked>
+                            <span>Active (enable this model)</span>
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="hideModelModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveModel()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/models.js"></script>
+</body>
+</html>

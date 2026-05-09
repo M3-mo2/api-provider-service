@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - API Provider Service</title>
+    <link rel="stylesheet" href="/css/github-dark.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="navbar-brand">
+                    🔥 API Provider
+                </div>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item">
+                        <a href="/dashboard" class="sidebar-nav-link">
+                            📊 Dashboard
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/keys" class="sidebar-nav-link">
+                            🔑 API Keys
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/models" class="sidebar-nav-link">
+                            🤖 Models
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/monitor" class="sidebar-nav-link">
+                            📡 Monitor
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/settings" class="sidebar-nav-link active">
+                            ⚙️ Settings
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/" class="sidebar-nav-link">
+                            📖 Documentation
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link" onclick="logout(); return false;">
+                            🚪 Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <h1>Settings</h1>
+                <p class="text-secondary mb-3">Configure your API service settings</p>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('general')">General</button>
+                    <button class="tab" onclick="switchTab('rotation')">Key Rotation</button>
+                    <button class="tab" onclick="switchTab('rate-limiting')">Rate Limiting</button>
+                    <button class="tab" onclick="switchTab('backup')">Backup & Restore</button>
+                </div>
+
+                <!-- General Settings -->
+                <div id="tab-general" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Server Configuration</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label">Server Port</label>
+                                <input type="number" id="server-port" class="input" value="10736">
+                                <span class="form-help">Port number for the API service (requires restart)</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="detailed-logging" checked>
+                                    <span>Enable detailed logging (token usage, timing)</span>
+                                </label>
+                            </div>
+
+                            <button class="btn btn-primary" onclick="saveGeneralSettings()">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Rotation Settings -->
+                <div id="tab-rotation" class="tab-content hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">API Key Rotation</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="rotation-enabled" checked>
+                                    <span>Enable round-robin key rotation</span>
+                                </label>
+                                <span class="form-help">Distribute requests across multiple API keys</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="auto-failover" checked>
+                                    <span>Enable automatic failover</span>
+                                </label>
+                                <span class="form-help">Automatically skip failed keys</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Health Check Interval (seconds)</label>
+                                <input type="number" id="health-check-interval" class="input" value="300" min="60">
+                                <span class="form-help">How often to check API key health</span>
+                            </div>
+
+                            <button class="btn btn-primary" onclick="saveRotationSettings()">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rate Limiting Settings -->
+                <div id="tab-rate-limiting" class="tab-content hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Rate Limiting</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="rate-limiting-enabled">
+                                    <span>Enable rate limiting</span>
+                                </label>
+                                <span class="form-help">Limit requests per IP address</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Requests per Minute</label>
+                                <input type="number" id="requests-per-minute" class="input" value="60" min="1">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Requests per Hour</label>
+                                <input type="number" id="requests-per-hour" class="input" value="1000" min="1">
+                            </div>
+
+                            <button class="btn btn-primary" onclick="saveRateLimitSettings()">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backup & Restore -->
+                <div id="tab-backup" class="tab-content hidden">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h3 class="card-title">Automatic Backup</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="auto-backup-enabled" checked>
+                                    <span>Enable automatic backups</span>
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Backup Interval (hours)</label>
+                                <input type="number" id="backup-interval" class="input" value="10" min="1">
+                                <span class="form-help">How often to create automatic backups</span>
+                            </div>
+
+                            <button class="btn btn-primary" onclick="saveBackupSettings()">Save Changes</button>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h3 class="card-title">Create Backup</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="include-logs">
+                                    <span>Include request logs in backup</span>
+                                </label>
+                                <span class="form-help">Warning: This may create large backup files</span>
+                            </div>
+
+                            <button class="btn btn-primary" onclick="createBackup()">
+                                📥 Create Backup Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Available Backups</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Filename</th>
+                                        <th>Size</th>
+                                        <th>Created</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="backups-table">
+                                    <tr>
+                                        <td colspan="4" class="text-center text-secondary">Loading...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/settings.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Keys - API Provider Service</title>
+    <link rel="stylesheet" href="/css/github-dark.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="navbar-brand">
+                    🔥 API Provider
+                </div>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item">
+                        <a href="/dashboard" class="sidebar-nav-link">
+                            📊 Dashboard
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/keys" class="sidebar-nav-link active">
+                            🔑 API Keys
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/models" class="sidebar-nav-link">
+                            🤖 Models
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/monitor" class="sidebar-nav-link">
+                            📡 Monitor
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/settings" class="sidebar-nav-link">
+                            ⚙️ Settings
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/" class="sidebar-nav-link">
+                            📖 Documentation
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link" onclick="logout(); return false;">
+                            🚪 Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <div class="action-bar">
+                    <div class="action-bar-left">
+                        <h1>API Keys</h1>
+                    </div>
+                    <div class="action-bar-right">
+                        <button class="btn btn-primary" onclick="showAddKeyModal()">
+                            + Add API Key
+                        </button>
+                    </div>
+                </div>
+
+                <p class="text-secondary mb-3">Manage your Fireworks.ai API keys with round-robin rotation</p>
+
+                <!-- Keys Table -->
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>API Key</th>
+                                    <th>Status</th>
+                                    <th>Priority</th>
+                                    <th>Requests</th>
+                                    <th>Success Rate</th>
+                                    <th>Last Used</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="keys-table">
+                                <tr>
+                                    <td colspan="8" class="text-center text-secondary">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Key Modal -->
+    <div id="key-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">Add API Key</h3>
+                <button class="btn btn-secondary btn-sm" onclick="hideKeyModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <form id="key-form">
+                    <input type="hidden" id="key-id">
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="key-name">Name</label>
+                        <input type="text" id="key-name" class="input" placeholder="e.g., Production Key" required>
+                        <span class="form-help">A friendly name to identify this key</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="key-value">API Key</label>
+                        <textarea id="key-value" class="textarea" placeholder="Enter your Fireworks.ai API key" required style="min-height: 80px;"></textarea>
+                        <span class="form-help">Your Fireworks.ai API key (starts with fw_...)</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="key-priority">Priority</label>
+                        <input type="number" id="key-priority" class="input" value="0" min="0">
+                        <span class="form-help">Higher priority keys are used first (0 = normal)</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input type="checkbox" id="key-active" checked>
+                            <span>Active (enable this key for rotation)</span>
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="hideKeyModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveKey()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/api-keys.js"></script>
+</body>
+</html>

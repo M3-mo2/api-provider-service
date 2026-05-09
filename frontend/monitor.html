@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor - API Provider Service</title>
+    <link rel="stylesheet" href="/css/github-dark.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="navbar-brand">
+                    🔥 API Provider
+                </div>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item">
+                        <a href="/dashboard" class="sidebar-nav-link">
+                            📊 Dashboard
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/keys" class="sidebar-nav-link">
+                            🔑 API Keys
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/models" class="sidebar-nav-link">
+                            🤖 Models
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/monitor" class="sidebar-nav-link active">
+                            📡 Monitor
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/settings" class="sidebar-nav-link">
+                            ⚙️ Settings
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/" class="sidebar-nav-link">
+                            📖 Documentation
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link" onclick="logout(); return false;">
+                            🚪 Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <div class="action-bar">
+                    <div class="action-bar-left">
+                        <h1>Real-time Monitor</h1>
+                    </div>
+                    <div class="action-bar-right">
+                        <label class="checkbox">
+                            <input type="checkbox" id="auto-refresh" checked>
+                            <span>Auto-refresh</span>
+                        </label>
+                        <button class="btn btn-secondary" onclick="loadLogs()">
+                            🔄 Refresh
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportLogs()">
+                            📥 Export
+                        </button>
+                    </div>
+                </div>
+
+                <p class="text-secondary mb-3">Monitor API requests in real-time</p>
+
+                <!-- Filters -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label">Status</label>
+                                <select id="filter-status" class="select" onchange="loadLogs()">
+                                    <option value="">All</option>
+                                    <option value="success">Success (2xx)</option>
+                                    <option value="error">Error (4xx, 5xx)</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label">Endpoint</label>
+                                <select id="filter-endpoint" class="select" onchange="loadLogs()">
+                                    <option value="">All</option>
+                                    <option value="/v1/chat/completions">/v1/chat/completions</option>
+                                    <option value="/v1/completions">/v1/completions</option>
+                                    <option value="/v1/messages">/v1/messages</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label">Limit</label>
+                                <select id="filter-limit" class="select" onchange="loadLogs()">
+                                    <option value="50">50</option>
+                                    <option value="100" selected>100</option>
+                                    <option value="200">200</option>
+                                    <option value="500">500</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Logs Table -->
+                <div class="card">
+                    <div class="card-body">
+                        <div style="overflow-x: auto;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Method</th>
+                                        <th>Endpoint</th>
+                                        <th>Model</th>
+                                        <th>Status</th>
+                                        <th>Tokens</th>
+                                        <th>Latency</th>
+                                        <th>IP</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="logs-table">
+                                    <tr>
+                                        <td colspan="8" class="text-center text-secondary">Loading...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="flex justify-between items-center mt-3">
+                    <div class="text-secondary">
+                        Showing <span id="logs-count">0</span> requests
+                    </div>
+                    <div class="flex gap-1">
+                        <button class="btn btn-secondary btn-sm" onclick="previousPage()" id="prev-btn" disabled>
+                            ← Previous
+                        </button>
+                        <button class="btn btn-secondary btn-sm" onclick="nextPage()" id="next-btn">
+                            Next →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/monitor.js"></script>
+</body>
+</html>

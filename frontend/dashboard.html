@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - API Provider Service</title>
+    <link rel="stylesheet" href="/css/github-dark.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="navbar-brand">
+                    🔥 API Provider
+                </div>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item">
+                        <a href="/dashboard" class="sidebar-nav-link active">
+                            📊 Dashboard
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/keys" class="sidebar-nav-link">
+                            🔑 API Keys
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/models" class="sidebar-nav-link">
+                            🤖 Models
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/monitor" class="sidebar-nav-link">
+                            📡 Monitor
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/settings" class="sidebar-nav-link">
+                            ⚙️ Settings
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="/" class="sidebar-nav-link">
+                            📖 Documentation
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link" onclick="logout(); return false;">
+                            🚪 Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <h1>Dashboard</h1>
+                <p class="text-secondary mb-3">Overview of your API service statistics</p>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Requests</div>
+                        <div class="stat-value" id="stat-total-requests">-</div>
+                        <div class="stat-change positive">
+                            <span>↑</span>
+                            <span>All time</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Tokens</div>
+                        <div class="stat-value" id="stat-total-tokens">-</div>
+                        <div class="stat-change">
+                            <span>Consumed</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Success Rate</div>
+                        <div class="stat-value" id="stat-success-rate">-</div>
+                        <div class="stat-change positive">
+                            <span>↑</span>
+                            <span>Healthy</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Avg Response Time</div>
+                        <div class="stat-value" id="stat-avg-latency">-</div>
+                        <div class="stat-change">
+                            <span>Milliseconds</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Cost</div>
+                        <div class="stat-value" id="stat-total-cost">-</div>
+                        <div class="stat-change">
+                            <span>Estimated</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Active Keys</div>
+                        <div class="stat-value" id="stat-active-keys">-</div>
+                        <div class="stat-change positive">
+                            <span>✓</span>
+                            <span>Operational</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+                    <!-- Token Usage Chart -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Token Usage (Last 7 Days)</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="token-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Requests by Endpoint -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Requests by Endpoint</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="endpoint-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top API Keys -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Top API Keys by Usage</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Key Name</th>
+                                    <th>Total Requests</th>
+                                    <th>Success Rate</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="top-keys-table">
+                                <tr>
+                                    <td colspan="4" class="text-center text-secondary">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Provider Service - Fireworks.ai Gateway</title>
+    <link rel="stylesheet" href="/css/github-dark.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="/" class="navbar-brand">
+                🔥 Fireworks.ai API Provider
+            </a>
+            <ul class="navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="https://docs.fireworks.ai" target="_blank">Fireworks Docs</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding: 48px 16px;">
+        <!-- Hero Section -->
+        <div style="text-align: center; margin-bottom: 64px;">
+            <h1 style="font-size: 48px; margin-bottom: 16px;">🔥 Fireworks.ai API Gateway</h1>
+            <p style="font-size: 20px; color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+                OpenAI & Anthropic compatible API gateway with intelligent key rotation and monitoring
+            </p>
+            <div style="margin-top: 32px; display: flex; gap: 16px; justify-content: center;">
+                <a href="/dashboard" class="btn btn-primary btn-lg">Go to Dashboard</a>
+                <a href="#quick-start" class="btn btn-secondary btn-lg">Quick Start</a>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div style="margin-bottom: 64px;">
+            <h2 style="text-align: center; margin-bottom: 32px;">Features</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px;">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>🔄 Smart Key Rotation</h3>
+                        <p class="text-secondary">Round-robin distribution across multiple API keys with automatic failover</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3>🔌 API Compatible</h3>
+                        <p class="text-secondary">Drop-in replacement for OpenAI and Anthropic APIs</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3>📊 Real-time Monitoring</h3>
+                        <p class="text-secondary">Track requests, tokens, costs, and performance metrics</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3>💾 Backup & Restore</h3>
+                        <p class="text-secondary">Automatic backups with easy restore functionality</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3>🎨 Modern Dashboard</h3>
+                        <p class="text-secondary">Beautiful GitHub dark theme interface</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3>⚡ High Performance</h3>
+                        <p class="text-secondary">Built with Flask and async support for fast responses</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Start -->
+        <div id="quick-start" style="margin-bottom: 64px;">
+            <h2 style="margin-bottom: 24px;">Quick Start</h2>
+            
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h3 class="card-title">1. Add Your Fireworks.ai API Keys</h3>
+                </div>
+                <div class="card-body">
+                    <p>Go to the <a href="/keys">API Keys</a> page and add one or more Fireworks.ai API keys. The service will automatically rotate between them.</p>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h3 class="card-title">2. Use OpenAI SDK</h3>
+                </div>
+                <div class="card-body">
+                    <p>Simply change the base URL in your OpenAI client:</p>
+                    <div class="code-block">
+<code>from openai import OpenAI
+
+client = OpenAI(
+    base_url="http://localhost:10736/v1",
+    api_key="not-needed"  # Keys managed by service
+)
+
+response = client.chat.completions.create(
+    model="accounts/fireworks/models/llama-v3p1-8b-instruct",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+
+print(response.choices[0].message.content)</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h3 class="card-title">3. Or Use Anthropic SDK</h3>
+                </div>
+                <div class="card-body">
+                    <p>Works with Anthropic SDK too:</p>
+                    <div class="code-block">
+<code>import anthropic
+
+client = anthropic.Anthropic(
+    base_url="http://localhost:10736",
+    api_key="not-needed"
+)
+
+response = client.messages.create(
+    model="accounts/fireworks/models/kimi-k2p5",
+    messages=[{"role": "user", "content": "Hello!"}],
+    max_tokens=256
+)
+
+print(response.content[0].text)</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">4. Or Use cURL</h3>
+                </div>
+                <div class="card-body">
+                    <p>Direct HTTP requests work too:</p>
+                    <div class="code-block">
+<code>curl http://localhost:10736/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "accounts/fireworks/models/llama-v3p1-8b-instruct",
+    "messages": [{"role": "user", "content": "Hello!"}]
+  }'</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Endpoints -->
+        <div style="margin-bottom: 64px;">
+            <h2 style="margin-bottom: 24px;">API Endpoints</h2>
+            
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h4><span class="badge badge-success">POST</span> /v1/chat/completions</h4>
+                    <p class="text-secondary">OpenAI-compatible chat completions endpoint</p>
+                </div>
+            </div>
+
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h4><span class="badge badge-success">POST</span> /v1/completions</h4>
+                    <p class="text-secondary">OpenAI-compatible completions endpoint</p>
+                </div>
+            </div>
+
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h4><span class="badge badge-success">POST</span> /v1/messages</h4>
+                    <p class="text-secondary">Anthropic-compatible messages endpoint</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4><span class="badge badge-info">GET</span> /health</h4>
+                    <p class="text-secondary">Health check endpoint</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configuration -->
+        <div style="margin-bottom: 64px;">
+            <h2 style="margin-bottom: 24px;">Configuration</h2>
+            
+            <div class="card">
+                <div class="card-body">
+                    <p>The service can be configured via:</p>
+                    <ul style="margin-left: 24px; color: var(--text-secondary);">
+                        <li><code>config/config.yaml</code> - Main configuration file</li>
+                        <li><code>.env</code> - Environment variables</li>
+                        <li>Dashboard Settings page - Web interface</li>
+                    </ul>
+                    
+                    <h4 style="margin-top: 24px;">Default Settings:</h4>
+                    <ul style="margin-left: 24px; color: var(--text-secondary);">
+                        <li><strong>Port:</strong> 10736 (configurable)</li>
+                        <li><strong>Dashboard Auth:</strong> admin / macro</li>
+                        <li><strong>Key Rotation:</strong> Enabled</li>
+                        <li><strong>Auto Backup:</strong> Every 10 hours</li>
+                        <li><strong>Rate Limiting:</strong> Disabled (optional)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; padding: 32px 0; border-top: 1px solid var(--border-color);">
+            <p class="text-secondary">
+                Built with ❤️ using Flask, SQLite, and Fireworks.ai
+            </p>
+            <p class="text-secondary" style="margin-top: 8px;">
+                <a href="https://fireworks.ai" target="_blank">Fireworks.ai</a> • 
+                <a href="https://docs.fireworks.ai" target="_blank">Documentation</a> • 
+                <a href="/dashboard">Dashboard</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
