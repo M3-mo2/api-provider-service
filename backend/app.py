@@ -63,10 +63,7 @@ def create_app():
     app.register_blueprint(anthropic_bp)
     app.register_blueprint(dashboard_bp)
 
-    # Serve frontend files
-    @app.route("/")
-    def index():
-        return send_from_directory(app.static_folder, "index.html")
+    # Serve frontend files (removed duplicate, moved to end)
 
     @app.route("/login")
     def login_page():
@@ -96,6 +93,16 @@ def create_app():
     @app.route("/health")
     def health():
         return {"status": "ok", "service": "api-provider-service"}, 200
+
+    # Additional health check for Railway/Render
+    @app.route("/healthz")
+    def healthz():
+        return "OK", 200
+
+    # Root endpoint
+    @app.route("/")
+    def root():
+        return send_from_directory(app.static_folder, "index.html")
 
     # Start background scheduler
     scheduler_service.start()
