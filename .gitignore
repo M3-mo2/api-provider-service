@@ -1,3 +1,5 @@
+# .gitignore for API Provider Service
+
 # Python
 __pycache__/
 *.py[cod]
@@ -29,6 +31,8 @@ wheels/
 # Database
 data/*.db
 data/*.db-journal
+data/*.db-shm
+data/*.db-wal
 
 # Backups
 data/backups/*.json
@@ -47,3 +51,8 @@ logs/*.log
 # OS
 .DS_Store
 Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.cache
