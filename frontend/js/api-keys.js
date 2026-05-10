@@ -52,6 +52,10 @@ function displayKeys(keys) {
             <td>${key.last_used_at ? new Date(key.last_used_at).toLocaleString() : 'Never'}</td>
             <td>
                 <div class="flex gap-1">
+                    <button class="btn btn-secondary btn-sm" id="check-btn-${key.id}" onclick="checkKey(${key.id}, '${key.name}')">
+                        <i data-lucide="shield-check" style="width:12px;height:12px;"></i>
+                        Check
+                    </button>
                     <button class="btn btn-secondary btn-sm" onclick="editKey(${key.id})">Edit</button>
                     <button class="btn btn-secondary btn-sm" onclick="toggleKey(${key.id}, ${!key.is_active})">
                         ${key.is_active ? 'Disable' : 'Enable'}
@@ -61,6 +65,7 @@ function displayKeys(keys) {
             </td>
         </tr>
     `).join('');
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 // Show add key modal
@@ -197,6 +202,60 @@ async function deleteKey(id, name) {
     } catch (error) {
         console.error('Error deleting key:', error);
         alert('Failed to delete key');
+    }
+}
+
+async function checkKey(id, name) {
+    const btn = document.getElementById(`check-btn-${id}`);
+    if (!btn) return;
+
+    const originalHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner" style="width:12px;height:12px;border-width:2px;"></span> Checking...';
+    btn.classList.remove('btn-secondary');
+    btn.classList.add('btn-secondary');
+
+    try {
+        const response = await apiRequest(`/api/dashboard/keys/${id}/check`, {
+            method: 'POST'
+        });
+
+        if (!response) return;
+
+        const data = await response.json();
+
+        if (data.valid) {
+            btn.classList.remove('btn-secondary');
+            btn.classList.add('btn-primary');
+            btn.innerHTML = `<i data-lucide="check" style="width:12px;height:12px;"></i> Valid (${data.latency_ms}ms)`;
+            lucide.createIcons({ nodes: [btn] });
+        } else {
+            btn.classList.remove('btn-secondary');
+            btn.classList.add('btn-danger');
+            btn.innerHTML = `<i data-lucide="x" style="width:12px;height:12px;"></i> Invalid`;
+            lucide.createIcons({ nodes: [btn] });
+        }
+
+        setTimeout(() => {
+            btn.disabled = false;
+            btn.classList.remove('btn-primary', 'btn-danger');
+            btn.classList.add('btn-secondary');
+            btn.innerHTML = originalHTML;
+            lucide.createIcons({ nodes: [btn] });
+        }, 4000);
+
+    } catch (error) {
+        console.error('Error checking key:', error);
+        btn.classList.remove('btn-secondary');
+        btn.classList.add('btn-danger');
+        btn.innerHTML = 'Error';
+        setTimeout(() => {
+            btn.disabled = false;
+            btn.classList.remove('btn-danger');
+            btn.classList.add('btn-secondary');
+            btn.innerHTML = originalHTML;
+            lucide.createIcons({ nodes: [btn] });
+        }, 3000);
     }
 }
 

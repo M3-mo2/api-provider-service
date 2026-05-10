@@ -181,6 +181,101 @@ def delete_key(key_id):
         return jsonify({"error": str(e)}), 500
 
 
+@dashboard_bp.route("/api/dashboard/keys/<int:key_id>/check", methods=["POST"])
+@require_auth
+def check_key(key_id):
+    """Check if an API key is valid by sending a test request to Fireworks"""
+    import httpx
+
+    try:
+        session = db.get_session()
+        key = session.query(APIKey).filter(APIKey.id == key_id).first()
+
+        if not key:
+            session.close()
+            return jsonify({"error": "Key not found"}), 404
+
+        api_key = key.api_key
+        key_name = key.name
+        session.close()
+
+        fireworks_url = "https://api.fireworks.ai/inference/v1/chat/completions"
+        test_payload = {
+            "model": "accounts/fireworks/models/kimi-k2p6",
+            "messages": [{"role": "user", "content": "Hi"}],
+            "max_tokens": 1,
+            "stream": False,
+        }
+
+        start_time = datetime.utcnow()
+
+        try:
+            with httpx.Client(timeout=30) as client:
+                response = client.post(
+                    fireworks_url,
+                    json=test_payload,
+                    headers={
+                        "Authorization": f"Bearer {api_key}",
+                        "Content-Type": "application/json",
+                    },
+                )
+
+            latency_ms = int((datetime.utcnow() - start_time).total_seconds() * 1000)
+
+            if response.status_code == 200:
+                return jsonify(
+                    {
+                        "valid": True,
+                        "key_name": key_name,
+                        "status_code": response.status_code,
+                        "latency_ms": latency_ms,
+                        "message": "Key is valid and working",
+                    }
+                ), 200
+            else:
+                try:
+                    error_detail = response.json()
+                    error_msg = error_detail.get("error", {}).get(
+                        "message", response.text[:200]
+                    )
+                except Exception:
+                    error_msg = response.text[:200]
+
+                return jsonify(
+                    {
+                        "valid": False,
+                        "key_name": key_name,
+                        "status_code": response.status_code,
+                        "latency_ms": latency_ms,
+                        "message": f"Key check failed: {error_msg}",
+                    }
+                ), 200
+
+        except httpx.TimeoutException:
+            return jsonify(
+                {
+                    "valid": False,
+                    "key_name": key_name,
+                    "status_code": 0,
+                    "latency_ms": 0,
+                    "message": "Request timed out after 30 seconds",
+                }
+            ), 200
+        except Exception as e:
+            return jsonify(
+                {
+                    "valid": False,
+                    "key_name": key_name,
+                    "status_code": 0,
+                    "latency_ms": 0,
+                    "message": f"Connection error: {str(e)}",
+                }
+            ), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @dashboard_bp.route("/api/dashboard/keys/health", methods=["GET"])
 @require_auth
 def get_keys_health():
