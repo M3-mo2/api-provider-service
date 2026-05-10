@@ -6,74 +6,90 @@
     <title>Models - API Provider Service</title>
     <link rel="stylesheet" href="/css/github-dark.css">
     <link rel="stylesheet" href="/css/main.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
     <div class="dashboard-layout">
-        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <div class="navbar-brand">
-                    🔥 API Provider
-                </div>
+                <a href="/dashboard" class="sidebar-brand">
+                    <i data-lucide="flame" style="width:20px;height:20px;"></i>
+                    API Provider
+                </a>
             </div>
             <nav>
                 <ul class="sidebar-nav">
                     <li class="sidebar-nav-item">
                         <a href="/dashboard" class="sidebar-nav-link">
-                            📊 Dashboard
+                            <i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i>
+                            Dashboard
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
                         <a href="/keys" class="sidebar-nav-link">
-                            🔑 API Keys
+                            <i data-lucide="key-round" style="width:16px;height:16px;"></i>
+                            API Keys
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
                         <a href="/models" class="sidebar-nav-link active">
-                            🤖 Models
+                            <i data-lucide="cpu" style="width:16px;height:16px;"></i>
+                            Models
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
                         <a href="/monitor" class="sidebar-nav-link">
-                            📡 Monitor
+                            <i data-lucide="activity" style="width:16px;height:16px;"></i>
+                            Monitor
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
                         <a href="/settings" class="sidebar-nav-link">
-                            ⚙️ Settings
+                            <i data-lucide="settings" style="width:16px;height:16px;"></i>
+                            Settings
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
                         <a href="/" class="sidebar-nav-link">
-                            📖 Documentation
-                        </a>
-                    </li>
-                    <li class="sidebar-nav-item">
-                        <a href="#" class="sidebar-nav-link" onclick="logout(); return false;">
-                            🚪 Logout
+                            <i data-lucide="book-open" style="width:16px;height:16px;"></i>
+                            Documentation
                         </a>
                     </li>
                 </ul>
             </nav>
+            <div class="sidebar-user">
+                <div class="sidebar-user-avatar">
+                    <i data-lucide="user" style="width:14px;height:14px;"></i>
+                </div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name" id="sidebar-username">Admin</div>
+                </div>
+                <a href="#" onclick="logout(); return false;" style="color:var(--text-muted);display:flex;" title="Logout">
+                    <i data-lucide="log-out" style="width:16px;height:16px;"></i>
+                </a>
+            </div>
         </aside>
 
-        <!-- Main Content -->
         <main class="main-content">
             <div class="container">
-                <div class="action-bar">
-                    <div class="action-bar-left">
-                        <h1>Models</h1>
+                <div class="page-header">
+                    <div class="action-bar" style="margin-bottom:0;">
+                        <div class="action-bar-left">
+                            <h1 class="page-title">
+                                <i data-lucide="cpu" style="width:22px;height:22px;"></i>
+                                Models
+                            </h1>
+                        </div>
+                        <div class="action-bar-right">
+                            <button class="btn btn-primary" onclick="showAddModelModal()">
+                                <i data-lucide="plus" style="width:14px;height:14px;"></i>
+                                Add Model
+                            </button>
+                        </div>
                     </div>
-                    <div class="action-bar-right">
-                        <button class="btn btn-primary" onclick="showAddModelModal()">
-                            + Add Model
-                        </button>
-                    </div>
+                    <p class="page-subtitle">Configure Fireworks.ai models for your API service</p>
                 </div>
 
-                <p class="text-secondary mb-3">Configure Fireworks.ai models for your API service</p>
-
-                <!-- Models Table -->
                 <div class="card">
                     <div class="card-body">
                         <table class="table">
@@ -99,12 +115,13 @@
         </main>
     </div>
 
-    <!-- Add/Edit Model Modal -->
     <div id="model-modal" class="modal-overlay hidden">
         <div class="modal">
             <div class="modal-header">
                 <h3 class="modal-title" id="modal-title">Add Model</h3>
-                <button class="btn btn-secondary btn-sm" onclick="hideModelModal()">✕</button>
+                <button class="btn btn-secondary btn-sm" onclick="hideModelModal()">
+                    <i data-lucide="x" style="width:14px;height:14px;"></i>
+                </button>
             </div>
             <div class="modal-body">
                 <form id="model-form">
@@ -178,5 +195,11 @@
 
     <script src="/js/auth.js"></script>
     <script src="/js/models.js"></script>
+    <script>
+        lucide.createIcons();
+        if (getUsername()) {
+            document.getElementById('sidebar-username').textContent = getUsername();
+        }
+    </script>
 </body>
 </html>

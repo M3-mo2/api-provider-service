@@ -6,72 +6,99 @@
     <title>Settings - API Provider Service</title>
     <link rel="stylesheet" href="/css/github-dark.css">
     <link rel="stylesheet" href="/css/main.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
     <div class="dashboard-layout">
-        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <div class="navbar-brand">
-                    🔥 API Provider
-                </div>
+                <a href="/dashboard" class="sidebar-brand">
+                    <i data-lucide="flame" style="width:20px;height:20px;"></i>
+                    API Provider
+                </a>
             </div>
             <nav>
                 <ul class="sidebar-nav">
                     <li class="sidebar-nav-item">
                         <a href="/dashboard" class="sidebar-nav-link">
-                            📊 Dashboard
+                            <i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i>
+                            Dashboard
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
                         <a href="/keys" class="sidebar-nav-link">
-                            🔑 API Keys
+                            <i data-lucide="key-round" style="width:16px;height:16px;"></i>
+                            API Keys
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
                         <a href="/models" class="sidebar-nav-link">
-                            🤖 Models
+                            <i data-lucide="cpu" style="width:16px;height:16px;"></i>
+                            Models
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
                         <a href="/monitor" class="sidebar-nav-link">
-                            📡 Monitor
+                            <i data-lucide="activity" style="width:16px;height:16px;"></i>
+                            Monitor
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
                         <a href="/settings" class="sidebar-nav-link active">
-                            ⚙️ Settings
+                            <i data-lucide="settings" style="width:16px;height:16px;"></i>
+                            Settings
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
                         <a href="/" class="sidebar-nav-link">
-                            📖 Documentation
-                        </a>
-                    </li>
-                    <li class="sidebar-nav-item">
-                        <a href="#" class="sidebar-nav-link" onclick="logout(); return false;">
-                            🚪 Logout
+                            <i data-lucide="book-open" style="width:16px;height:16px;"></i>
+                            Documentation
                         </a>
                     </li>
                 </ul>
             </nav>
+            <div class="sidebar-user">
+                <div class="sidebar-user-avatar">
+                    <i data-lucide="user" style="width:14px;height:14px;"></i>
+                </div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name" id="sidebar-username">Admin</div>
+                </div>
+                <a href="#" onclick="logout(); return false;" style="color:var(--text-muted);display:flex;" title="Logout">
+                    <i data-lucide="log-out" style="width:16px;height:16px;"></i>
+                </a>
+            </div>
         </aside>
 
-        <!-- Main Content -->
         <main class="main-content">
             <div class="container">
-                <h1>Settings</h1>
-                <p class="text-secondary mb-3">Configure your API service settings</p>
-
-                <!-- Tabs -->
-                <div class="tabs">
-                    <button class="tab active" onclick="switchTab('general')">General</button>
-                    <button class="tab" onclick="switchTab('rotation')">Key Rotation</button>
-                    <button class="tab" onclick="switchTab('rate-limiting')">Rate Limiting</button>
-                    <button class="tab" onclick="switchTab('backup')">Backup & Restore</button>
+                <div class="page-header">
+                    <h1 class="page-title">
+                        <i data-lucide="settings" style="width:22px;height:22px;"></i>
+                        Settings
+                    </h1>
+                    <p class="page-subtitle">Configure your API service settings</p>
                 </div>
 
-                <!-- General Settings -->
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('general')">
+                        <i data-lucide="sliders" style="width:14px;height:14px;display:inline;vertical-align:middle;margin-right:4px;"></i>
+                        General
+                    </button>
+                    <button class="tab" onclick="switchTab('rotation')">
+                        <i data-lucide="refresh-cw" style="width:14px;height:14px;display:inline;vertical-align:middle;margin-right:4px;"></i>
+                        Key Rotation
+                    </button>
+                    <button class="tab" onclick="switchTab('rate-limiting')">
+                        <i data-lucide="gauge" style="width:14px;height:14px;display:inline;vertical-align:middle;margin-right:4px;"></i>
+                        Rate Limiting
+                    </button>
+                    <button class="tab" onclick="switchTab('backup')">
+                        <i data-lucide="database" style="width:14px;height:14px;display:inline;vertical-align:middle;margin-right:4px;"></i>
+                        Backup & Restore
+                    </button>
+                </div>
+
                 <div id="tab-general" class="tab-content">
                     <div class="card">
                         <div class="card-header">
@@ -91,12 +118,14 @@
                                 </label>
                             </div>
 
-                            <button class="btn btn-primary" onclick="saveGeneralSettings()">Save Changes</button>
+                            <button class="btn btn-primary" onclick="saveGeneralSettings()">
+                                <i data-lucide="save" style="width:14px;height:14px;"></i>
+                                Save Changes
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Key Rotation Settings -->
                 <div id="tab-rotation" class="tab-content hidden">
                     <div class="card">
                         <div class="card-header">
@@ -125,12 +154,14 @@
                                 <span class="form-help">How often to check API key health</span>
                             </div>
 
-                            <button class="btn btn-primary" onclick="saveRotationSettings()">Save Changes</button>
+                            <button class="btn btn-primary" onclick="saveRotationSettings()">
+                                <i data-lucide="save" style="width:14px;height:14px;"></i>
+                                Save Changes
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Rate Limiting Settings -->
                 <div id="tab-rate-limiting" class="tab-content hidden">
                     <div class="card">
                         <div class="card-header">
@@ -155,12 +186,14 @@
                                 <input type="number" id="requests-per-hour" class="input" value="1000" min="1">
                             </div>
 
-                            <button class="btn btn-primary" onclick="saveRateLimitSettings()">Save Changes</button>
+                            <button class="btn btn-primary" onclick="saveRateLimitSettings()">
+                                <i data-lucide="save" style="width:14px;height:14px;"></i>
+                                Save Changes
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Backup & Restore -->
                 <div id="tab-backup" class="tab-content hidden">
                     <div class="card mb-3">
                         <div class="card-header">
@@ -180,7 +213,10 @@
                                 <span class="form-help">How often to create automatic backups</span>
                             </div>
 
-                            <button class="btn btn-primary" onclick="saveBackupSettings()">Save Changes</button>
+                            <button class="btn btn-primary" onclick="saveBackupSettings()">
+                                <i data-lucide="save" style="width:14px;height:14px;"></i>
+                                Save Changes
+                            </button>
                         </div>
                     </div>
 
@@ -198,7 +234,8 @@
                             </div>
 
                             <button class="btn btn-primary" onclick="createBackup()">
-                                📥 Create Backup Now
+                                <i data-lucide="download" style="width:14px;height:14px;"></i>
+                                Create Backup Now
                             </button>
                         </div>
                     </div>
@@ -232,5 +269,11 @@
 
     <script src="/js/auth.js"></script>
     <script src="/js/settings.js"></script>
+    <script>
+        lucide.createIcons();
+        if (getUsername()) {
+            document.getElementById('sidebar-username').textContent = getUsername();
+        }
+    </script>
 </body>
 </html>

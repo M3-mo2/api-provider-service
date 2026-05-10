@@ -46,7 +46,7 @@ function displayModels(models) {
             <td>${model.context_length ? model.context_length.toLocaleString() : 'N/A'}</td>
             <td>
                 <span class="badge ${model.is_active ? 'badge-success' : 'badge-error'}">
-                    ${model.is_active ? '✓ Active' : '✕ Inactive'}
+                    ${model.is_active ? 'Active' : 'Inactive'}
                 </span>
             </td>
             <td>

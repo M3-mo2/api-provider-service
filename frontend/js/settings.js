@@ -189,7 +189,7 @@ function displayBackups(backups) {
             <td>
                 <div class="flex gap-1">
                     <button class="btn btn-primary btn-sm" onclick="restoreBackup('${backup.filename}')">
-                        📤 Restore
+                        Restore
                     </button>
                     <button class="btn btn-danger btn-sm" onclick="deleteBackup('${backup.filename}')">
                         Delete

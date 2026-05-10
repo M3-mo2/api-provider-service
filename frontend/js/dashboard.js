@@ -63,7 +63,7 @@ function updateTopKeys(keys) {
             <td>${key.success_rate}%</td>
             <td>
                 <span class="badge ${key.success_rate >= 95 ? 'badge-success' : 'badge-warning'}">
-                    ${key.success_rate >= 95 ? '✓ Healthy' : '⚠ Warning'}
+                    ${key.success_rate >= 95 ? 'Healthy' : 'Warning'}
                 </span>
             </td>
         </tr>
@@ -82,7 +82,7 @@ function updateTokenChart(timeline) {
     const inputTokens = timeline.map(t => t.input_tokens);
     const outputTokens = timeline.map(t => t.output_tokens);
     
-    tokenChart = new Chart(ctx, {
+        tokenChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
@@ -90,16 +90,22 @@ function updateTokenChart(timeline) {
                 {
                     label: 'Input Tokens',
                     data: inputTokens,
-                    borderColor: '#58a6ff',
-                    backgroundColor: 'rgba(88, 166, 255, 0.1)',
-                    tension: 0.4
+                    borderColor: '#00d4ff',
+                    backgroundColor: 'rgba(0, 212, 255, 0.08)',
+                    tension: 0.4,
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#00d4ff'
                 },
                 {
                     label: 'Output Tokens',
                     data: outputTokens,
-                    borderColor: '#3fb950',
-                    backgroundColor: 'rgba(63, 185, 80, 0.1)',
-                    tension: 0.4
+                    borderColor: '#f0b429',
+                    backgroundColor: 'rgba(240, 180, 41, 0.08)',
+                    tension: 0.4,
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#f0b429'
                 }
             ]
         },
@@ -109,7 +115,9 @@ function updateTokenChart(timeline) {
             plugins: {
                 legend: {
                     labels: {
-                        color: '#c9d1d9'
+                        color: '#7a7a9a',
+                        font: { family: "'JetBrains Mono', monospace", size: 11 },
+                        padding: 16
                     }
                 }
             },
@@ -117,18 +125,20 @@ function updateTokenChart(timeline) {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: '#8b949e'
+                        color: '#4e4e6a',
+                        font: { family: "'JetBrains Mono', monospace", size: 11 }
                     },
                     grid: {
-                        color: '#21262d'
+                        color: '#1e1e32'
                     }
                 },
                 x: {
                     ticks: {
-                        color: '#8b949e'
+                        color: '#4e4e6a',
+                        font: { family: "'JetBrains Mono', monospace", size: 11 }
                     },
                     grid: {
-                        color: '#21262d'
+                        color: '#1e1e32'
                     }
                 }
             }
@@ -154,12 +164,14 @@ function updateEndpointChart(endpoints) {
             datasets: [{
                 data: data,
                 backgroundColor: [
-                    '#58a6ff',
-                    '#3fb950',
-                    '#d29922',
-                    '#bc8cff',
-                    '#f85149'
-                ]
+                    '#f0b429',
+                    '#00d4ff',
+                    '#a78bfa',
+                    '#22c55e',
+                    '#ef4444'
+                ],
+                borderColor: '#0e0e16',
+                borderWidth: 2
             }]
         },
         options: {
@@ -169,8 +181,9 @@ function updateEndpointChart(endpoints) {
                 legend: {
                     position: 'bottom',
                     labels: {
-                        color: '#c9d1d9',
-                        padding: 15
+                        color: '#7a7a9a',
+                        font: { family: "'JetBrains Mono', monospace", size: 11 },
+                        padding: 16
                     }
                 }
             }

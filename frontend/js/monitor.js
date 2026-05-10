@@ -83,8 +83,8 @@ function displayLogs(logs) {
                         <span class="text-secondary" style="font-size: 12px;">
                             ${log.total_tokens.toLocaleString()}
                             <br>
-                            <span style="color: var(--accent-blue);">↓${log.input_tokens}</span>
-                            <span style="color: var(--accent-green);">↑${log.output_tokens}</span>
+                            <span style="color: var(--accent-cyan);">in:${log.input_tokens}</span>
+                            <span style="color: var(--accent-amber);">out:${log.output_tokens}</span>
                         </span>
                     ` : 'N/A'}
                 </td>

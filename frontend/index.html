@@ -6,102 +6,121 @@
     <title>API Provider Service - Fireworks.ai Gateway</title>
     <link rel="stylesheet" href="/css/github-dark.css">
     <link rel="stylesheet" href="/css/main.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
     <nav class="navbar">
         <div class="container navbar-container">
             <a href="/" class="navbar-brand">
-                🔥 Fireworks.ai API Provider
+                <i data-lucide="flame" style="width:20px;height:20px;"></i>
+                API Provider
             </a>
             <ul class="navbar-nav">
-                <li><a href="/">Home</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="https://docs.fireworks.ai" target="_blank">Fireworks Docs</a></li>
+                <li><a href="/"><i data-lucide="home" style="width:14px;height:14px;"></i> Home</a></li>
+                <li><a href="/dashboard"><i data-lucide="layout-dashboard" style="width:14px;height:14px;"></i> Dashboard</a></li>
+                <li><a href="https://docs.fireworks.ai" target="_blank"><i data-lucide="external-link" style="width:14px;height:14px;"></i> Docs</a></li>
             </ul>
         </div>
     </nav>
 
-    <div class="container" style="padding: 48px 16px;">
-        <!-- Hero Section -->
-        <div style="text-align: center; margin-bottom: 64px;">
-            <h1 style="font-size: 48px; margin-bottom: 16px;">🔥 Fireworks.ai API Gateway</h1>
-            <p style="font-size: 20px; color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
-                OpenAI & Anthropic compatible API gateway with intelligent key rotation and monitoring
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">Fireworks.ai<br>API Gateway</h1>
+            <p class="hero-subtitle">
+                OpenAI & Anthropic compatible API gateway with intelligent key rotation and real-time monitoring
             </p>
-            <div style="margin-top: 32px; display: flex; gap: 16px; justify-content: center;">
-                <a href="/dashboard" class="btn btn-primary btn-lg">Go to Dashboard</a>
-                <a href="#quick-start" class="btn btn-secondary btn-lg">Quick Start</a>
+            <div class="hero-actions">
+                <a href="/dashboard" class="btn btn-primary btn-lg">
+                    <i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i>
+                    Dashboard
+                </a>
+                <a href="#quick-start" class="btn btn-secondary btn-lg">
+                    <i data-lucide="terminal" style="width:16px;height:16px;"></i>
+                    Quick Start
+                </a>
             </div>
         </div>
 
-        <!-- Features -->
-        <div style="margin-bottom: 64px;">
-            <h2 style="text-align: center; margin-bottom: 32px;">Features</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px;">
-                <div class="card">
-                    <div class="card-body">
-                        <h3>🔄 Smart Key Rotation</h3>
-                        <p class="text-secondary">Round-robin distribution across multiple API keys with automatic failover</p>
+        <div style="margin-bottom: 60px;">
+            <div class="section-title">
+                <i data-lucide="zap" style="width:16px;height:16px;"></i>
+                Features
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
+                <div class="feature-card">
+                    <div class="feature-card-icon">
+                        <i data-lucide="refresh-cw" style="width:20px;height:20px;"></i>
                     </div>
+                    <h3>Smart Key Rotation</h3>
+                    <p class="text-secondary">Round-robin distribution across multiple API keys with automatic failover</p>
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h3>🔌 API Compatible</h3>
-                        <p class="text-secondary">Drop-in replacement for OpenAI and Anthropic APIs</p>
+                <div class="feature-card">
+                    <div class="feature-card-icon">
+                        <i data-lucide="plug" style="width:20px;height:20px;"></i>
                     </div>
+                    <h3>API Compatible</h3>
+                    <p class="text-secondary">Drop-in replacement for OpenAI and Anthropic APIs</p>
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h3>📊 Real-time Monitoring</h3>
-                        <p class="text-secondary">Track requests, tokens, costs, and performance metrics</p>
+                <div class="feature-card">
+                    <div class="feature-card-icon">
+                        <i data-lucide="activity" style="width:20px;height:20px;"></i>
                     </div>
+                    <h3>Real-time Monitoring</h3>
+                    <p class="text-secondary">Track requests, tokens, costs, and performance metrics</p>
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h3>💾 Backup & Restore</h3>
-                        <p class="text-secondary">Automatic backups with easy restore functionality</p>
+                <div class="feature-card">
+                    <div class="feature-card-icon">
+                        <i data-lucide="database" style="width:20px;height:20px;"></i>
                     </div>
+                    <h3>Backup & Restore</h3>
+                    <p class="text-secondary">Automatic backups with easy restore functionality</p>
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h3>🎨 Modern Dashboard</h3>
-                        <p class="text-secondary">Beautiful GitHub dark theme interface</p>
+                <div class="feature-card">
+                    <div class="feature-card-icon">
+                        <i data-lucide="monitor" style="width:20px;height:20px;"></i>
                     </div>
+                    <h3>Modern Dashboard</h3>
+                    <p class="text-secondary">Professional dark theme interface with live analytics</p>
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h3>⚡ High Performance</h3>
-                        <p class="text-secondary">Built with Flask and async support for fast responses</p>
+                <div class="feature-card">
+                    <div class="feature-card-icon">
+                        <i data-lucide="gauge" style="width:20px;height:20px;"></i>
                     </div>
+                    <h3>High Performance</h3>
+                    <p class="text-secondary">Built with Flask and async support for fast responses</p>
                 </div>
             </div>
         </div>
 
-        <!-- Quick Start -->
-        <div id="quick-start" style="margin-bottom: 64px;">
-            <h2 style="margin-bottom: 24px;">Quick Start</h2>
+        <div id="quick-start" style="margin-bottom: 60px;">
+            <div class="section-title">
+                <i data-lucide="rocket" style="width:16px;height:16px;"></i>
+                Quick Start
+            </div>
             
-            <div class="card mb-3">
-                <div class="card-header">
-                    <h3 class="card-title">1. Add Your Fireworks.ai API Keys</h3>
+            <div class="step-card">
+                <div class="step-card-header">
+                    <div class="step-number">1</div>
+                    <h3 class="card-title" style="margin:0;">Add Your Fireworks.ai API Keys</h3>
                 </div>
-                <div class="card-body">
+                <div class="step-card-body">
                     <p>Go to the <a href="/keys">API Keys</a> page and add one or more Fireworks.ai API keys. The service will automatically rotate between them.</p>
                 </div>
             </div>
 
-            <div class="card mb-3">
-                <div class="card-header">
-                    <h3 class="card-title">2. Use OpenAI SDK</h3>
+            <div class="step-card">
+                <div class="step-card-header">
+                    <div class="step-number">2</div>
+                    <h3 class="card-title" style="margin:0;">Use OpenAI SDK</h3>
                 </div>
-                <div class="card-body">
-                    <p>Simply change the base URL in your OpenAI client:</p>
+                <div class="step-card-body">
+                    <p style="margin-bottom:12px;">Simply change the base URL in your OpenAI client:</p>
                     <div class="code-block">
 <code>from openai import OpenAI
 
 client = OpenAI(
     base_url="http://localhost:10736/v1",
-    api_key="not-needed"  # Keys managed by service
+    api_key="not-needed"
 )
 
 response = client.chat.completions.create(
@@ -114,12 +133,13 @@ print(response.choices[0].message.content)</code>
                 </div>
             </div>
 
-            <div class="card mb-3">
-                <div class="card-header">
-                    <h3 class="card-title">3. Or Use Anthropic SDK</h3>
+            <div class="step-card">
+                <div class="step-card-header">
+                    <div class="step-number">3</div>
+                    <h3 class="card-title" style="margin:0;">Or Use Anthropic SDK</h3>
                 </div>
-                <div class="card-body">
-                    <p>Works with Anthropic SDK too:</p>
+                <div class="step-card-body">
+                    <p style="margin-bottom:12px;">Works with Anthropic SDK too:</p>
                     <div class="code-block">
 <code>import anthropic
 
@@ -139,12 +159,13 @@ print(response.content[0].text)</code>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">4. Or Use cURL</h3>
+            <div class="step-card">
+                <div class="step-card-header">
+                    <div class="step-number">4</div>
+                    <h3 class="card-title" style="margin:0;">Or Use cURL</h3>
                 </div>
-                <div class="card-body">
-                    <p>Direct HTTP requests work too:</p>
+                <div class="step-card-body">
+                    <p style="margin-bottom:12px;">Direct HTTP requests work too:</p>
                     <div class="code-block">
 <code>curl http://localhost:10736/v1/chat/completions \
   -H "Content-Type: application/json" \
@@ -157,75 +178,74 @@ print(response.content[0].text)</code>
             </div>
         </div>
 
-        <!-- API Endpoints -->
-        <div style="margin-bottom: 64px;">
-            <h2 style="margin-bottom: 24px;">API Endpoints</h2>
+        <div style="margin-bottom: 60px;">
+            <div class="section-title">
+                <i data-lucide="git-branch" style="width:16px;height:16px;"></i>
+                API Endpoints
+            </div>
             
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h4><span class="badge badge-success">POST</span> /v1/chat/completions</h4>
-                    <p class="text-secondary">OpenAI-compatible chat completions endpoint</p>
-                </div>
+            <div class="endpoint-card">
+                <span class="endpoint-method post">POST</span>
+                <span class="endpoint-path">/v1/chat/completions</span>
+                <span class="text-muted" style="margin-left:auto;font-size:12px;">OpenAI chat completions</span>
             </div>
 
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h4><span class="badge badge-success">POST</span> /v1/completions</h4>
-                    <p class="text-secondary">OpenAI-compatible completions endpoint</p>
-                </div>
+            <div class="endpoint-card">
+                <span class="endpoint-method post">POST</span>
+                <span class="endpoint-path">/v1/completions</span>
+                <span class="text-muted" style="margin-left:auto;font-size:12px;">OpenAI completions</span>
             </div>
 
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h4><span class="badge badge-success">POST</span> /v1/messages</h4>
-                    <p class="text-secondary">Anthropic-compatible messages endpoint</p>
-                </div>
+            <div class="endpoint-card">
+                <span class="endpoint-method post">POST</span>
+                <span class="endpoint-path">/v1/messages</span>
+                <span class="text-muted" style="margin-left:auto;font-size:12px;">Anthropic messages</span>
             </div>
 
-            <div class="card">
-                <div class="card-body">
-                    <h4><span class="badge badge-info">GET</span> /health</h4>
-                    <p class="text-secondary">Health check endpoint</p>
-                </div>
+            <div class="endpoint-card">
+                <span class="endpoint-method get">GET</span>
+                <span class="endpoint-path">/health</span>
+                <span class="text-muted" style="margin-left:auto;font-size:12px;">Health check</span>
             </div>
         </div>
 
-        <!-- Configuration -->
-        <div style="margin-bottom: 64px;">
-            <h2 style="margin-bottom: 24px;">Configuration</h2>
+        <div style="margin-bottom: 40px;">
+            <div class="section-title">
+                <i data-lucide="settings" style="width:16px;height:16px;"></i>
+                Configuration
+            </div>
             
             <div class="card">
                 <div class="card-body">
-                    <p>The service can be configured via:</p>
-                    <ul style="margin-left: 24px; color: var(--text-secondary);">
-                        <li><code>config/config.yaml</code> - Main configuration file</li>
-                        <li><code>.env</code> - Environment variables</li>
-                        <li>Dashboard Settings page - Web interface</li>
+                    <p style="margin-bottom:16px;">The service can be configured via:</p>
+                    <ul style="margin-left: 20px; color: var(--text-secondary); list-style: none; display: flex; flex-direction: column; gap: 8px;">
+                        <li style="display:flex;align-items:center;gap:8px;"><i data-lucide="file-text" style="width:14px;height:14px;color:var(--accent-amber);"></i> <code>config/config.yaml</code> - Main configuration file</li>
+                        <li style="display:flex;align-items:center;gap:8px;"><i data-lucide="file-lock" style="width:14px;height:14px;color:var(--accent-amber);"></i> <code>.env</code> - Environment variables</li>
+                        <li style="display:flex;align-items:center;gap:8px;"><i data-lucide="sliders" style="width:14px;height:14px;color:var(--accent-amber);"></i> Dashboard Settings page - Web interface</li>
                     </ul>
                     
-                    <h4 style="margin-top: 24px;">Default Settings:</h4>
-                    <ul style="margin-left: 24px; color: var(--text-secondary);">
-                        <li><strong>Port:</strong> 10736 (configurable)</li>
-                        <li><strong>Dashboard Auth:</strong> admin / macro</li>
-                        <li><strong>Key Rotation:</strong> Enabled</li>
-                        <li><strong>Auto Backup:</strong> Every 10 hours</li>
-                        <li><strong>Rate Limiting:</strong> Disabled (optional)</li>
+                    <h4 style="margin-top: 24px; margin-bottom: 12px;">Default Settings</h4>
+                    <ul style="margin-left: 20px; color: var(--text-secondary); list-style: none; display: flex; flex-direction: column; gap: 6px;">
+                        <li style="display:flex;align-items:center;gap:8px;"><i data-lucide="hard-drive" style="width:14px;height:14px;color:var(--text-muted);"></i> <strong>Port:</strong> 10736 (configurable)</li>
+                        <li style="display:flex;align-items:center;gap:8px;"><i data-lucide="shield" style="width:14px;height:14px;color:var(--text-muted);"></i> <strong>Dashboard Auth:</strong> admin / macro</li>
+                        <li style="display:flex;align-items:center;gap:8px;"><i data-lucide="refresh-cw" style="width:14px;height:14px;color:var(--text-muted);"></i> <strong>Key Rotation:</strong> Enabled</li>
+                        <li style="display:flex;align-items:center;gap:8px;"><i data-lucide="database" style="width:14px;height:14px;color:var(--text-muted);"></i> <strong>Auto Backup:</strong> Every 10 hours</li>
+                        <li style="display:flex;align-items:center;gap:8px;"><i data-lucide="gauge" style="width:14px;height:14px;color:var(--text-muted);"></i> <strong>Rate Limiting:</strong> Disabled (optional)</li>
                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Footer -->
-        <div style="text-align: center; padding: 32px 0; border-top: 1px solid var(--border-color);">
-            <p class="text-secondary">
-                Built with ❤️ using Flask, SQLite, and Fireworks.ai
-            </p>
-            <p class="text-secondary" style="margin-top: 8px;">
-                <a href="https://fireworks.ai" target="_blank">Fireworks.ai</a> • 
-                <a href="https://docs.fireworks.ai" target="_blank">Documentation</a> • 
+        <div class="site-footer">
+            <p>Built with Flask, SQLite, and Fireworks.ai</p>
+            <p style="margin-top: 8px;">
+                <a href="https://fireworks.ai" target="_blank">Fireworks.ai</a> &middot; 
+                <a href="https://docs.fireworks.ai" target="_blank">Documentation</a> &middot; 
                 <a href="/dashboard">Dashboard</a>
             </p>
         </div>
     </div>
+
+    <script>lucide.createIcons();</script>
 </body>
 </html>

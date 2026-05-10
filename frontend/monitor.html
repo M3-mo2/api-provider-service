@@ -6,81 +6,98 @@
     <title>Monitor - API Provider Service</title>
     <link rel="stylesheet" href="/css/github-dark.css">
     <link rel="stylesheet" href="/css/main.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
     <div class="dashboard-layout">
-        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <div class="navbar-brand">
-                    🔥 API Provider
-                </div>
+                <a href="/dashboard" class="sidebar-brand">
+                    <i data-lucide="flame" style="width:20px;height:20px;"></i>
+                    API Provider
+                </a>
             </div>
             <nav>
                 <ul class="sidebar-nav">
                     <li class="sidebar-nav-item">
                         <a href="/dashboard" class="sidebar-nav-link">
-                            📊 Dashboard
+                            <i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i>
+                            Dashboard
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
                         <a href="/keys" class="sidebar-nav-link">
-                            🔑 API Keys
+                            <i data-lucide="key-round" style="width:16px;height:16px;"></i>
+                            API Keys
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
                         <a href="/models" class="sidebar-nav-link">
-                            🤖 Models
+                            <i data-lucide="cpu" style="width:16px;height:16px;"></i>
+                            Models
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
                         <a href="/monitor" class="sidebar-nav-link active">
-                            📡 Monitor
+                            <i data-lucide="activity" style="width:16px;height:16px;"></i>
+                            Monitor
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
                         <a href="/settings" class="sidebar-nav-link">
-                            ⚙️ Settings
+                            <i data-lucide="settings" style="width:16px;height:16px;"></i>
+                            Settings
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
                         <a href="/" class="sidebar-nav-link">
-                            📖 Documentation
-                        </a>
-                    </li>
-                    <li class="sidebar-nav-item">
-                        <a href="#" class="sidebar-nav-link" onclick="logout(); return false;">
-                            🚪 Logout
+                            <i data-lucide="book-open" style="width:16px;height:16px;"></i>
+                            Documentation
                         </a>
                     </li>
                 </ul>
             </nav>
+            <div class="sidebar-user">
+                <div class="sidebar-user-avatar">
+                    <i data-lucide="user" style="width:14px;height:14px;"></i>
+                </div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name" id="sidebar-username">Admin</div>
+                </div>
+                <a href="#" onclick="logout(); return false;" style="color:var(--text-muted);display:flex;" title="Logout">
+                    <i data-lucide="log-out" style="width:16px;height:16px;"></i>
+                </a>
+            </div>
         </aside>
 
-        <!-- Main Content -->
         <main class="main-content">
             <div class="container">
-                <div class="action-bar">
-                    <div class="action-bar-left">
-                        <h1>Real-time Monitor</h1>
+                <div class="page-header">
+                    <div class="action-bar" style="margin-bottom:0;">
+                        <div class="action-bar-left">
+                            <h1 class="page-title">
+                                <i data-lucide="activity" style="width:22px;height:22px;"></i>
+                                Real-time Monitor
+                            </h1>
+                        </div>
+                        <div class="action-bar-right">
+                            <label class="checkbox">
+                                <input type="checkbox" id="auto-refresh" checked>
+                                <span>Auto-refresh</span>
+                            </label>
+                            <button class="btn btn-secondary" onclick="loadLogs()">
+                                <i data-lucide="refresh-cw" style="width:14px;height:14px;"></i>
+                                Refresh
+                            </button>
+                            <button class="btn btn-secondary" onclick="exportLogs()">
+                                <i data-lucide="download" style="width:14px;height:14px;"></i>
+                                Export
+                            </button>
+                        </div>
                     </div>
-                    <div class="action-bar-right">
-                        <label class="checkbox">
-                            <input type="checkbox" id="auto-refresh" checked>
-                            <span>Auto-refresh</span>
-                        </label>
-                        <button class="btn btn-secondary" onclick="loadLogs()">
-                            🔄 Refresh
-                        </button>
-                        <button class="btn btn-secondary" onclick="exportLogs()">
-                            📥 Export
-                        </button>
-                    </div>
+                    <p class="page-subtitle">Monitor API requests in real-time</p>
                 </div>
 
-                <p class="text-secondary mb-3">Monitor API requests in real-time</p>
-
-                <!-- Filters -->
                 <div class="card mb-3">
                     <div class="card-body">
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
@@ -114,7 +131,6 @@
                     </div>
                 </div>
 
-                <!-- Logs Table -->
                 <div class="card">
                     <div class="card-body">
                         <div style="overflow-x: auto;">
@@ -141,17 +157,18 @@
                     </div>
                 </div>
 
-                <!-- Pagination -->
                 <div class="flex justify-between items-center mt-3">
-                    <div class="text-secondary">
+                    <div class="text-secondary" style="font-family:var(--font-display);font-size:12px;">
                         Showing <span id="logs-count">0</span> requests
                     </div>
                     <div class="flex gap-1">
                         <button class="btn btn-secondary btn-sm" onclick="previousPage()" id="prev-btn" disabled>
-                            ← Previous
+                            <i data-lucide="chevron-left" style="width:14px;height:14px;"></i>
+                            Previous
                         </button>
                         <button class="btn btn-secondary btn-sm" onclick="nextPage()" id="next-btn">
-                            Next →
+                            Next
+                            <i data-lucide="chevron-right" style="width:14px;height:14px;"></i>
                         </button>
                     </div>
                 </div>
@@ -161,5 +178,11 @@
 
     <script src="/js/auth.js"></script>
     <script src="/js/monitor.js"></script>
+    <script>
+        lucide.createIcons();
+        if (getUsername()) {
+            document.getElementById('sidebar-username').textContent = getUsername();
+        }
+    </script>
 </body>
 </html>

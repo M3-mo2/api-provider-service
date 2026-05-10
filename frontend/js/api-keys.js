@@ -39,7 +39,7 @@ function displayKeys(keys) {
             <td><code>${key.api_key}</code></td>
             <td>
                 <span class="badge ${key.is_active ? 'badge-success' : 'badge-error'}">
-                    ${key.is_active ? '✓ Active' : '✕ Inactive'}
+                    ${key.is_active ? 'Active' : 'Inactive'}
                 </span>
             </td>
             <td>${key.priority}</td>
