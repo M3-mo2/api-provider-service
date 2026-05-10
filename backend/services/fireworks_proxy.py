@@ -20,6 +20,66 @@ class FireworksProxy:
         self.timeout = config.get("fireworks.timeout", 300)
         self.max_retries = config.get("fireworks.max_retries", 3)
 
+    def chat_completion_sync(
+        self, api_key: str, data: Dict[str, Any]
+    ) -> tuple[Optional[Dict], int, Optional[str]]:
+        url = f"{self.base_url}/chat/completions"
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        }
+        try:
+            with httpx.Client(timeout=self.timeout) as client:
+                response = client.post(url, json=data, headers=headers)
+                if response.status_code == 200:
+                    return response.json(), response.status_code, None
+                else:
+                    return None, response.status_code, response.text
+        except httpx.TimeoutException:
+            return None, 504, "Request timeout"
+        except Exception as e:
+            return None, 500, str(e)
+
+    def completion_sync(
+        self, api_key: str, data: Dict[str, Any]
+    ) -> tuple[Optional[Dict], int, Optional[str]]:
+        url = f"{self.base_url}/completions"
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        }
+        try:
+            with httpx.Client(timeout=self.timeout) as client:
+                response = client.post(url, json=data, headers=headers)
+                if response.status_code == 200:
+                    return response.json(), response.status_code, None
+                else:
+                    return None, response.status_code, response.text
+        except httpx.TimeoutException:
+            return None, 504, "Request timeout"
+        except Exception as e:
+            return None, 500, str(e)
+
+    def anthropic_messages_sync(
+        self, api_key: str, data: Dict[str, Any]
+    ) -> tuple[Optional[Dict], int, Optional[str]]:
+        url = "https://api.fireworks.ai/inference/v1/messages"
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        }
+        try:
+            with httpx.Client(timeout=self.timeout) as client:
+                response = client.post(url, json=data, headers=headers)
+                if response.status_code == 200:
+                    return response.json(), response.status_code, None
+                else:
+                    return None, response.status_code, response.text
+        except httpx.TimeoutException:
+            return None, 504, "Request timeout"
+        except Exception as e:
+            return None, 500, str(e)
+
     async def chat_completion(
         self, api_key: str, data: Dict[str, Any], stream: bool = False
     ) -> tuple[Optional[Dict], Optional[AsyncGenerator], int, Optional[str]]:
