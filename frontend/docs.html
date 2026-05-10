@@ -120,7 +120,7 @@ Your App  ──▶  API Provider Service  ──▶  Fireworks.ai
 pip install -r requirements.txt
 cp .env.example .env
 python main.py</div>
-            <p>The service starts on <code>http://localhost:10736</code>. Dashboard at <code>/login</code> with default credentials <code>admin</code> / <code>macro</code>.</p>
+            <p>The service starts on <code>https://api-provider-service-production-6e52.up.railway.app</code>. Dashboard at <code>/login</code> with default credentials <code>admin</code> / <code>macro</code>.</p>
 
             <h3>2. Add API Keys</h3>
             <p>Log into the dashboard, go to <strong>API Keys</strong>, and add your Fireworks.ai keys (starting with <code>fw_</code>). Use the <strong>Check</strong> button to verify each key works.</p>
@@ -129,7 +129,7 @@ python main.py</div>
             <div class="rb">from openai import OpenAI
 
 client = OpenAI(
-    base_url="http://localhost:10736/v1",
+    base_url="https://api-provider-service-production-6e52.up.railway.app/v1",
     api_key="not-needed"  # Keys managed by service
 )
 
@@ -143,7 +143,7 @@ print(response.choices[0].message.content)</div>
             <div class="rb">import anthropic
 
 client = anthropic.Anthropic(
-    base_url="http://localhost:10736",
+    base_url="https://api-provider-service-production-6e52.up.railway.app",
     api_key="not-needed"
 )
 
@@ -155,7 +155,7 @@ response = client.messages.create(
 print(response.content[0].text)</div>
 
             <h3>5. Use with cURL</h3>
-            <div class="rb">curl http://localhost:10736/v1/chat/completions \
+            <div class="rb">curl https://api-provider-service-production-6e52.up.railway.app/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
     "model": "accounts/fireworks/models/kimi-k2p6",
@@ -209,7 +209,7 @@ print(response.content[0].text)</div>
             <div class="ep">
                 <div class="ep-h"><span class="ep-m post">POST</span><span class="ep-p">/v1/chat/completions</span><span class="ep-d">OpenAI-compatible chat</span></div>
                 <div class="ep-b">
-                    <p>OpenAI-compatible chat completions, proxied to <code>https://api.fireworks.ai/inference/v1/chat/completions</code>.</p>
+                    <p>OpenAI-compatible chat completions, proxied to the Fireworks.ai inference API.</p>
                     <p><strong>Request Body:</strong></p>
                     <table class="pt"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
                     <tbody>
@@ -250,7 +250,7 @@ print(response.content[0].text)</div>
             <div class="ep">
                 <div class="ep-h"><span class="ep-m post">POST</span><span class="ep-p">/v1/completions</span><span class="ep-d">OpenAI-compatible text completion</span></div>
                 <div class="ep-b">
-                    <p>OpenAI-compatible text completions, proxied to <code>https://api.fireworks.ai/inference/v1/completions</code>.</p>
+                    <p>OpenAI-compatible text completions, proxied to the Fireworks.ai inference API.</p>
                     <p><strong>Request Body:</strong></p>
                     <table class="pt"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
                     <tbody>
@@ -272,7 +272,7 @@ print(response.content[0].text)</div>
             <div class="ep">
                 <div class="ep-h"><span class="ep-m post">POST</span><span class="ep-p">/v1/messages</span><span class="ep-d">Anthropic-compatible messages</span></div>
                 <div class="ep-b">
-                    <p>Anthropic-compatible messages endpoint, proxied to <code>https://api.fireworks.ai/inference/v1/messages</code>.</p>
+                    <p>Anthropic-compatible messages endpoint, proxied to the Fireworks.ai inference API.</p>
                     <p><strong>Request Body:</strong></p>
                     <table class="pt"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
                     <tbody>

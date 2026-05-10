@@ -18,7 +18,7 @@
             <ul class="navbar-nav">
                 <li><a href="/"><i data-lucide="home" style="width:14px;height:14px;"></i> Home</a></li>
                 <li><a href="/dashboard"><i data-lucide="layout-dashboard" style="width:14px;height:14px;"></i> Dashboard</a></li>
-                <li><a href="https://docs.fireworks.ai" target="_blank"><i data-lucide="external-link" style="width:14px;height:14px;"></i> Docs</a></li>
+                <li><a href="/docs"><i data-lucide="book-open" style="width:14px;height:14px;"></i> Docs</a></li>
             </ul>
         </div>
     </nav>
@@ -119,7 +119,7 @@
 <code>from openai import OpenAI
 
 client = OpenAI(
-    base_url="http://localhost:10736/v1",
+    base_url="https://api-provider-service-production-6e52.up.railway.app/v1",
     api_key="not-needed"
 )
 
@@ -144,7 +144,7 @@ print(response.choices[0].message.content)</code>
 <code>import anthropic
 
 client = anthropic.Anthropic(
-    base_url="http://localhost:10736",
+    base_url="https://api-provider-service-production-6e52.up.railway.app",
     api_key="not-needed"
 )
 
@@ -167,7 +167,7 @@ print(response.content[0].text)</code>
                 <div class="step-card-body">
                     <p style="margin-bottom:12px;">Direct HTTP requests work too:</p>
                     <div class="code-block">
-<code>curl http://localhost:10736/v1/chat/completions \
+<code>curl https://api-provider-service-production-6e52.up.railway.app/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
     "model": "accounts/fireworks/models/llama-v3p1-8b-instruct",
@@ -239,8 +239,8 @@ print(response.content[0].text)</code>
         <div class="site-footer">
             <p>Built with Flask, SQLite, and Fireworks.ai</p>
             <p style="margin-top: 8px;">
-                <a href="https://fireworks.ai" target="_blank">Fireworks.ai</a> &middot; 
-                <a href="https://docs.fireworks.ai" target="_blank">Documentation</a> &middot; 
+                <a href="https://api-provider-service-production-6e52.up.railway.app" target="_blank">API Provider</a> &middot; 
+                <a href="/docs">Documentation</a> &middot; 
                 <a href="/dashboard">Dashboard</a>
             </p>
         </div>
