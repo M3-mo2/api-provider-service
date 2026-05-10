@@ -17,7 +17,7 @@ class FireworksProxy:
         self.base_url = config.get(
             "fireworks.base_url", "https://api.fireworks.ai/inference/v1"
         )
-        self.timeout = config.get("fireworks.timeout", 300)
+        self.timeout = config.get("fireworks.timeout", 60)
         self.max_retries = config.get("fireworks.max_retries", 3)
 
     def chat_completion_sync(
