@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - API Provider Service</title>
+    <link rel="stylesheet" href="/css/github-dark.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <style>
+        .docs-sidebar{width:220px;position:fixed;height:100vh;overflow-y:auto;background:var(--bg-secondary);border-right:1px solid var(--border-color);padding:20px 0;top:0;left:0;z-index:50}
+        .docs-sidebar-brand{padding:0 20px 20px;border-bottom:1px solid var(--border-color);margin-bottom:16px;display:flex;align-items:center;gap:10px;text-decoration:none}
+        .docs-sidebar-brand span{font-family:var(--font-display);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-primary)}
+        .docs-nav{list-style:none;padding:0 8px}
+        .docs-nav-section{font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);padding:12px 12px 6px;margin-top:8px}
+        .docs-nav a{display:flex;align-items:center;gap:8px;padding:6px 12px;color:var(--text-secondary);text-decoration:none;font-size:13px;border-radius:var(--radius-sm);transition:all var(--transition-fast);font-family:var(--font-body)}
+        .docs-nav a:hover{color:var(--text-primary);background:var(--bg-tertiary)}
+        .docs-nav a.active{color:var(--accent-amber);background:rgba(240,180,41,.06)}
+        .docs-nav a svg{width:14px;height:14px;flex-shrink:0;color:var(--text-muted)}
+        .docs-main{margin-left:220px;padding:32px 40px;max-width:900px}
+        .docs-section{margin-bottom:48px;scroll-margin-top:24px}
+        .docs-section h2{font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:.02em;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border-color);display:flex;align-items:center;gap:10px;color:var(--text-primary)}
+        .docs-section h2 svg{color:var(--accent-amber);width:20px;height:20px}
+        .docs-section h3{font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px;margin-top:24px;color:var(--accent-amber)}
+        .docs-section p{color:var(--text-secondary);font-size:14px;line-height:1.7;margin-bottom:12px}
+        .docs-section p code,.docs-section li code{background:var(--bg-tertiary);padding:1px 6px;border-radius:3px;font-family:var(--font-display);font-size:12px;color:var(--accent-cyan)}
+        .docs-section ul,.docs-section ol{color:var(--text-secondary);font-size:14px;line-height:1.8;margin-left:20px;margin-bottom:12px}
+        .docs-section li{margin-bottom:4px}
+        .docs-section strong{color:var(--text-primary)}
+        .ep{background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-md);margin-bottom:12px;overflow:hidden;transition:border-color var(--transition-fast)}
+        .ep:hover{border-color:rgba(240,180,41,.15)}
+        .ep-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border-color);background:var(--bg-tertiary)}
+        .ep-m{font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:.08em;padding:3px 10px;border-radius:var(--radius-sm);text-transform:uppercase;flex-shrink:0}
+        .ep-m.get{background:rgba(0,212,255,.1);color:var(--accent-cyan);border:1px solid rgba(0,212,255,.15)}
+        .ep-m.post{background:rgba(34,197,94,.1);color:var(--accent-green);border:1px solid rgba(34,197,94,.15)}
+        .ep-m.put{background:rgba(245,158,11,.1);color:var(--accent-yellow);border:1px solid rgba(245,158,11,.15)}
+        .ep-m.delete{background:rgba(239,68,68,.1);color:var(--accent-red);border:1px solid rgba(239,68,68,.15)}
+        .ep-p{font-family:var(--font-display);font-size:13px;font-weight:500;color:var(--text-primary);letter-spacing:.02em}
+        .ep-d{font-size:12px;color:var(--text-muted);margin-left:auto;flex-shrink:0}
+        .ep-b{padding:16px}
+        .pt{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0 12px}
+        .pt th{font-family:var(--font-display);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border-color);background:var(--bg-tertiary)}
+        .pt td{padding:8px 10px;border-bottom:1px solid var(--border-color);color:var(--text-secondary);vertical-align:top}
+        .pt td:first-child{font-family:var(--font-display);font-weight:500;color:var(--accent-cyan);font-size:12px;letter-spacing:.02em}
+        .pt td:nth-child(2){font-family:var(--font-display);font-size:11px;color:var(--text-muted);letter-spacing:.02em;text-transform:uppercase}
+        .req{color:var(--accent-red);font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:.04em}
+        .opt{color:var(--text-muted);font-family:var(--font-display);font-size:10px;font-weight:500;letter-spacing:.04em}
+        .rb{background:var(--bg-primary);border:1px solid var(--border-color);border-radius:var(--radius-sm);padding:12px 16px;margin:8px 0;font-family:var(--font-display);font-size:12px;line-height:1.7;color:var(--text-secondary);overflow-x:auto;white-space:pre}
+        .note{background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.12);border-radius:var(--radius-sm);padding:12px 16px;margin:12px 0;font-size:13px;color:var(--text-secondary);display:flex;align-items:flex-start;gap:10px;line-height:1.6}
+        .note svg{flex-shrink:0;color:var(--accent-cyan);margin-top:2px}
+        .warn{background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.12);border-radius:var(--radius-sm);padding:12px 16px;margin:12px 0;font-size:13px;color:var(--text-secondary);display:flex;align-items:flex-start;gap:10px;line-height:1.6}
+        .warn svg{flex-shrink:0;color:var(--accent-yellow);margin-top:2px}
+        .ct{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0 12px}
+        .ct th{font-family:var(--font-display);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border-color);background:var(--bg-tertiary)}
+        .ct td{padding:8px 10px;border-bottom:1px solid var(--border-color);color:var(--text-secondary);vertical-align:top}
+        .ct td:first-child{font-family:var(--font-display);font-weight:500;font-size:12px;color:var(--accent-amber);letter-spacing:.02em}
+        .ct td:nth-child(2){font-family:var(--font-display);font-size:12px;color:var(--accent-cyan)}
+        @media(max-width:768px){.docs-sidebar{display:none}.docs-main{margin-left:0;padding:20px}}
+    </style>
+</head>
+<body>
+    <aside class="docs-sidebar">
+        <a href="/docs" class="docs-sidebar-brand">
+            <i data-lucide="flame" style="width:20px;height:20px;color:var(--accent-amber)"></i>
+            <span>API Provider</span>
+        </a>
+        <ul class="docs-nav">
+            <li class="docs-nav-section">Getting Started</li>
+            <li><a href="#overview"><i data-lucide="info" style="width:14px;height:14px"></i> Overview</a></li>
+            <li><a href="#quick-start"><i data-lucide="rocket" style="width:14px;height:14px"></i> Quick Start</a></li>
+            <li><a href="#authentication"><i data-lucide="shield" style="width:14px;height:14px"></i> Authentication</a></li>
+            <li class="docs-nav-section">Inference API</li>
+            <li><a href="#chat-completions"><i data-lucide="message-square" style="width:14px;height:14px"></i> Chat Completions</a></li>
+            <li><a href="#completions"><i data-lucide="type" style="width:14px;height:14px"></i> Completions</a></li>
+            <li><a href="#anthropic-messages"><i data-lucide="brain" style="width:14px;height:14px"></i> Anthropic Messages</a></li>
+            <li><a href="#errors"><i data-lucide="alert-triangle" style="width:14px;height:14px"></i> Error Handling</a></li>
+            <li class="docs-nav-section">Dashboard API</li>
+            <li><a href="#dashboard-auth"><i data-lucide="lock" style="width:14px;height:14px"></i> Auth</a></li>
+            <li><a href="#dashboard-keys"><i data-lucide="key-round" style="width:14px;height:14px"></i> Keys</a></li>
+            <li><a href="#dashboard-models"><i data-lucide="cpu" style="width:14px;height:14px"></i> Models</a></li>
+            <li><a href="#dashboard-logs"><i data-lucide="scroll-text" style="width:14px;height:14px"></i> Logs</a></li>
+            <li><a href="#dashboard-stats"><i data-lucide="bar-chart-3" style="width:14px;height:14px"></i> Statistics</a></li>
+            <li><a href="#dashboard-backup"><i data-lucide="database" style="width:14px;height:14px"></i> Backup</a></li>
+            <li><a href="#dashboard-config"><i data-lucide="sliders" style="width:14px;height:14px"></i> Config</a></li>
+            <li class="docs-nav-section">Configuration</li>
+            <li><a href="#env-vars"><i data-lucide="file-lock" style="width:14px;height:14px"></i> Environment</a></li>
+            <li><a href="#config-yaml"><i data-lucide="file-text" style="width:14px;height:14px"></i> YAML File</a></li>
+            <li><a href="#deployment"><i data-lucide="cloud" style="width:14px;height:14px"></i> Deployment</a></li>
+        </ul>
+    </aside>
+    <main class="docs-main">
+        <!-- OVERVIEW -->
+        <section id="overview" class="docs-section">
+            <h2><i data-lucide="info" style="width:20px;height:20px"></i> Overview</h2>
+            <p><strong>Fireworks.ai API Provider Service</strong> is an OpenAI and Anthropic compatible API gateway that proxies requests to Fireworks.ai with intelligent key rotation, real-time monitoring, and automatic failover.</p>
+            <div class="rb" style="text-align:center;font-size:13px;">
+Your App  ──▶  API Provider Service  ──▶  Fireworks.ai
+(OpenAI SDK)    (rotation + monitor)       (Inference API)
+            </div>
+            <table class="pt">
+                <thead><tr><th>Feature</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td>OpenAI Compatible</td><td>Drop-in replacement for <code>/v1/chat/completions</code> and <code>/v1/completions</code></td></tr>
+                    <tr><td>Anthropic Compatible</td><td>Drop-in replacement for <code>/v1/messages</code></td></tr>
+                    <tr><td>Key Rotation</td><td>Round-robin across multiple API keys, ordered by priority</td></tr>
+                    <tr><td>Auto Failover</td><td>Keys marked unhealthy after 3 consecutive failures; retried after 5 minutes</td></tr>
+                    <tr><td>Monitoring</td><td>Real-time request logs, token usage, latency, cost estimation</td></tr>
+                    <tr><td>Backup & Restore</td><td>Auto-backup with SHA-256 checksum integrity verification</td></tr>
+                    <tr><td>Key Validation</td><td>Test any key with a live request to Fireworks via the Check button</td></tr>
+                    <tr><td>Dashboard Auth</td><td>JWT-based authentication (HS256, 24h expiry)</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- QUICK START -->
+        <section id="quick-start" class="docs-section">
+            <h2><i data-lucide="rocket" style="width:20px;height:20px"></i> Quick Start</h2>
+            <h3>1. Install & Run</h3>
+            <div class="rb">git clone &lt;repo-url&gt; &amp;&amp; cd api-provider-service
+pip install -r requirements.txt
+cp .env.example .env
+python main.py</div>
+            <p>The service starts on <code>http://localhost:10736</code>. Dashboard at <code>/login</code> with default credentials <code>admin</code> / <code>macro</code>.</p>
+
+            <h3>2. Add API Keys</h3>
+            <p>Log into the dashboard, go to <strong>API Keys</strong>, and add your Fireworks.ai keys (starting with <code>fw_</code>). Use the <strong>Check</strong> button to verify each key works.</p>
+
+            <h3>3. Use with OpenAI SDK (Python)</h3>
+            <div class="rb">from openai import OpenAI
+
+client = OpenAI(
+    base_url="http://localhost:10736/v1",
+    api_key="not-needed"  # Keys managed by service
+)
+
+response = client.chat.completions.create(
+    model="accounts/fireworks/models/kimi-k2p6",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+print(response.choices[0].message.content)</div>
+
+            <h3>4. Use with Anthropic SDK (Python)</h3>
+            <div class="rb">import anthropic
+
+client = anthropic.Anthropic(
+    base_url="http://localhost:10736",
+    api_key="not-needed"
+)
+
+response = client.messages.create(
+    model="accounts/fireworks/models/kimi-k2p6",
+    messages=[{"role": "user", "content": "Hello!"}],
+    max_tokens=256
+)
+print(response.content[0].text)</div>
+
+            <h3>5. Use with cURL</h3>
+            <div class="rb">curl http://localhost:10736/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "accounts/fireworks/models/kimi-k2p6",
+    "messages": [{"role": "user", "content": "Hello!"}]
+  }'</div>
+
+            <div class="note">
+                <i data-lucide="info" style="width:16px;height:16px"></i>
+                <span>The <code>api_key</code> field can be any value when calling the inference endpoints. The service manages the real Fireworks.ai keys internally via rotation.</span>
+            </div>
+        </section>
+
+        <!-- AUTHENTICATION -->
+        <section id="authentication" class="docs-section">
+            <h2><i data-lucide="shield" style="width:20px;height:20px"></i> Authentication</h2>
+            <p>The inference API endpoints (<code>/v1/*</code>) require <strong>no authentication</strong>. The dashboard API endpoints (<code>/api/*</code>) require a JWT token in the <code>Authorization</code> header.</p>
+
+            <h3>Obtaining a Token</h3>
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m post">POST</span><span class="ep-p">/api/auth/login</span><span class="ep-d">Login & get JWT</span></div>
+                <div class="ep-b">
+                    <p><strong>Request Body:</strong></p>
+                    <table class="pt"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td>username</td><td>string</td><td><span class="req">REQUIRED</span> Dashboard username</td></tr>
+                        <tr><td>password</td><td>string</td><td><span class="req">REQUIRED</span> Dashboard password</td></tr>
+                    </tbody></table>
+                    <p><strong>Response (200):</strong></p>
+                    <div class="rb">{
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "username": "admin"
+}</div>
+                </div>
+            </div>
+
+            <h3>Using the Token</h3>
+            <p>Include the token in all subsequent dashboard API requests:</p>
+            <div class="rb">Authorization: Bearer eyJhbGciOiJIUzI1NiIs...</div>
+
+            <h3>Token Details</h3>
+            <table class="pt"><thead><tr><th>Property</th><th>Value</th></tr></thead>
+            <tbody>
+                <tr><td>Algorithm</td><td>HS256</td></tr>
+                <tr><td>Expiry</td><td>24 hours</td></tr>
+                <tr><td>Secret</td><td>Set via <code>SECRET_KEY</code> env var</td></tr>
+            </tbody></table>
+        </section>
+        <!-- CHAT COMPLETIONS -->
+        <section id="chat-completions" class="docs-section">
+            <h2><i data-lucide="message-square" style="width:20px;height:20px"></i> Chat Completions</h2>
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m post">POST</span><span class="ep-p">/v1/chat/completions</span><span class="ep-d">OpenAI-compatible chat</span></div>
+                <div class="ep-b">
+                    <p>OpenAI-compatible chat completions, proxied to <code>https://api.fireworks.ai/inference/v1/chat/completions</code>.</p>
+                    <p><strong>Request Body:</strong></p>
+                    <table class="pt"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td>model</td><td>string</td><td><span class="req">REQUIRED</span> Fireworks model ID, e.g. <code>accounts/fireworks/models/kimi-k2p6</code></td></tr>
+                        <tr><td>messages</td><td>array</td><td><span class="req">REQUIRED</span> Array of <code>{role, content}</code> objects</td></tr>
+                        <tr><td>max_tokens</td><td>integer</td><td><span class="opt">OPTIONAL</span> Max tokens to generate</td></tr>
+                        <tr><td>temperature</td><td>number</td><td><span class="opt">OPTIONAL</span> Sampling temperature (0-2)</td></tr>
+                        <tr><td>top_p</td><td>number</td><td><span class="opt">OPTIONAL</span> Nucleus sampling parameter</td></tr>
+                        <tr><td>stream</td><td>boolean</td><td><span class="opt">OPTIONAL</span> Enable SSE streaming (not supported in current sync mode)</td></tr>
+                        <tr><td>stop</td><td>string/array</td><td><span class="opt">OPTIONAL</span> Stop sequences</td></tr>
+                    </tbody></table>
+                    <p><strong>Success Response (200):</strong></p>
+                    <div class="rb">{
+  "id": "cmpl-...",
+  "object": "chat.completion",
+  "model": "accounts/fireworks/models/kimi-k2p6",
+  "choices": [{
+    "index": 0,
+    "message": {
+      "role": "assistant",
+      "content": "Hello! How can I help you?"
+    },
+    "finish_reason": "stop"
+  }],
+  "usage": {
+    "prompt_tokens": 10,
+    "completion_tokens": 8,
+    "total_tokens": 18
+  }
+}</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPLETIONS -->
+        <section id="completions" class="docs-section">
+            <h2><i data-lucide="type" style="width:20px;height:20px"></i> Completions</h2>
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m post">POST</span><span class="ep-p">/v1/completions</span><span class="ep-d">OpenAI-compatible text completion</span></div>
+                <div class="ep-b">
+                    <p>OpenAI-compatible text completions, proxied to <code>https://api.fireworks.ai/inference/v1/completions</code>.</p>
+                    <p><strong>Request Body:</strong></p>
+                    <table class="pt"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td>model</td><td>string</td><td><span class="req">REQUIRED</span> Fireworks model ID</td></tr>
+                        <tr><td>prompt</td><td>string/array</td><td><span class="req">REQUIRED</span> The prompt(s) to complete</td></tr>
+                        <tr><td>max_tokens</td><td>integer</td><td><span class="opt">OPTIONAL</span> Max tokens to generate (default: model max)</td></tr>
+                        <tr><td>temperature</td><td>number</td><td><span class="opt">OPTIONAL</span> Sampling temperature</td></tr>
+                        <tr><td>top_p</td><td>number</td><td><span class="opt">OPTIONAL</span> Nucleus sampling</td></tr>
+                        <tr><td>stream</td><td>boolean</td><td><span class="opt">OPTIONAL</span> Enable streaming</td></tr>
+                    </tbody></table>
+                    <p><strong>Success Response (200):</strong> Standard OpenAI completion format with <code>choices</code> and <code>usage</code>.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ANTHROPIC MESSAGES -->
+        <section id="anthropic-messages" class="docs-section">
+            <h2><i data-lucide="brain" style="width:20px;height:20px"></i> Anthropic Messages</h2>
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m post">POST</span><span class="ep-p">/v1/messages</span><span class="ep-d">Anthropic-compatible messages</span></div>
+                <div class="ep-b">
+                    <p>Anthropic-compatible messages endpoint, proxied to <code>https://api.fireworks.ai/inference/v1/messages</code>.</p>
+                    <p><strong>Request Body:</strong></p>
+                    <table class="pt"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td>model</td><td>string</td><td><span class="req">REQUIRED</span> Fireworks model ID</td></tr>
+                        <tr><td>messages</td><td>array</td><td><span class="req">REQUIRED</span> Array of <code>{role, content}</code> objects</td></tr>
+                        <tr><td>max_tokens</td><td>integer</td><td><span class="req">REQUIRED</span> Max tokens to generate</td></tr>
+                        <tr><td>temperature</td><td>number</td><td><span class="opt">OPTIONAL</span> Sampling temperature</td></tr>
+                        <tr><td>top_p</td><td>number</td><td><span class="opt">OPTIONAL</span> Nucleus sampling</td></tr>
+                        <tr><td>stream</td><td>boolean</td><td><span class="opt">OPTIONAL</span> Enable streaming</td></tr>
+                    </tbody></table>
+                    <p><strong>Success Response (200):</strong></p>
+                    <div class="rb">{
+  "id": "msg_...",
+  "type": "message",
+  "role": "assistant",
+  "content": [
+    {"type": "text", "text": "Hello! How can I help?"}
+  ],
+  "model": "accounts/fireworks/models/kimi-k2p6",
+  "usage": {
+    "input_tokens": 10,
+    "output_tokens": 8
+  }
+}</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ERRORS -->
+        <section id="errors" class="docs-section">
+            <h2><i data-lucide="alert-triangle" style="width:20px;height:20px"></i> Error Handling</h2>
+            <p>All errors return JSON with an <code>error</code> field. Common error codes:</p>
+            <table class="pt"><thead><tr><th>Status</th><th>Meaning</th><th>Cause</th></tr></thead>
+            <tbody>
+                <tr><td>400</td><td>Bad Request</td><td>Missing or invalid request body</td></tr>
+                <tr><td>401</td><td>Unauthorized</td><td>Missing, expired, or invalid JWT token</td></tr>
+                <tr><td>404</td><td>Not Found</td><td>Resource (key, model) does not exist</td></tr>
+                <tr><td>429</td><td>Rate Limited</td><td>Too many requests from your IP (if rate limiting enabled)</td></tr>
+                <tr><td>500</td><td>Server Error</td><td>Internal error processing the request</td></tr>
+                <tr><td>503</td><td>No Keys Available</td><td>All API keys are unhealthy or none configured</td></tr>
+            </tbody></table>
+            <div class="rb">{"error": "No API keys available"}</div>
+            <div class="warn">
+                <i data-lucide="alert-triangle" style="width:16px;height:16px"></i>
+                <span>If you get a 503 error, add API keys via the dashboard or check key health. Keys are automatically retried after 5 minutes of being marked unhealthy.</span>
+            </div>
+        </section>
+        <!-- DASHBOARD AUTH API -->
+        <section id="dashboard-auth" class="docs-section">
+            <h2><i data-lucide="lock" style="width:20px;height:20px"></i> Dashboard Auth API</h2>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m post">POST</span><span class="ep-p">/api/auth/login</span><span class="ep-d">Authenticate</span></div>
+                <div class="ep-b">
+                    <p>Login and receive a JWT token. <strong>No auth required.</strong></p>
+                    <p><strong>Request:</strong> <code>{ "username": "admin", "password": "macro" }</code></p>
+                    <p><strong>Response (200):</strong> <code>{ "token": "eyJ...", "username": "admin" }</code></p>
+                    <p><strong>Error (401):</strong> <code>{ "error": "Invalid credentials" }</code></p>
+                </div>
+            </div>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m get">GET</span><span class="ep-p">/api/auth/verify</span><span class="ep-d">Verify token</span></div>
+                <div class="ep-b">
+                    <p>Verify if the current JWT token is still valid.</p>
+                    <p><strong>Response (200):</strong> <code>{ "valid": true, "username": "admin" }</code></p>
+                    <p><strong>Error (401):</strong> <code>{ "error": "Token expired" }</code></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD KEYS API -->
+        <section id="dashboard-keys" class="docs-section">
+            <h2><i data-lucide="key-round" style="width:20px;height:20px"></i> Key Management API</h2>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m get">GET</span><span class="ep-p">/api/dashboard/keys</span><span class="ep-d">List all keys</span></div>
+                <div class="ep-b">
+                    <p>Returns all API keys. The <code>api_key</code> field is masked (first 10 chars + <code>...</code>).</p>
+                    <div class="rb">[
+  {
+    "id": 1,
+    "name": "Production Key",
+    "api_key": "fw_abcde...",
+    "is_active": true,
+    "priority": 0,
+    "total_requests": 150,
+    "failed_requests": 2,
+    "success_rate": 98.67,
+    "last_used_at": "2025-01-15T10:30:00",
+    "created_at": "2025-01-01T00:00:00"
+  }
+]</div>
+                </div>
+            </div>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m post">POST</span><span class="ep-p">/api/dashboard/keys</span><span class="ep-d">Create key</span></div>
+                <div class="ep-b">
+                    <table class="pt"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td>name</td><td>string</td><td><span class="req">REQUIRED</span> Friendly name</td></tr>
+                        <tr><td>api_key</td><td>string</td><td><span class="req">REQUIRED</span> Full Fireworks API key</td></tr>
+                        <tr><td>is_active</td><td>boolean</td><td><span class="opt">OPTIONAL</span> Default: true</td></tr>
+                        <tr><td>priority</td><td>integer</td><td><span class="opt">OPTIONAL</span> Higher = used first. Default: 0</td></tr>
+                    </tbody></table>
+                </div>
+            </div>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m put">PUT</span><span class="ep-p">/api/dashboard/keys/:id</span><span class="ep-d">Update key</span></div>
+                <div class="ep-b">
+                    <p>Update any field of an existing key. All fields are optional. The rotator is reloaded automatically.</p>
+                </div>
+            </div>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m delete">DELETE</span><span class="ep-p">/api/dashboard/keys/:id</span><span class="ep-d">Delete key</span></div>
+                <div class="ep-b"><p>Permanently deletes a key. The rotator is reloaded automatically.</p></div>
+            </div>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m post">POST</span><span class="ep-p">/api/dashboard/keys/:id/check</span><span class="ep-d">Validate a key</span></div>
+                <div class="ep-b">
+                    <p>Sends a live test request to Fireworks (model: <code>kimi-k2p6</code>, <code>max_tokens=1</code>) to verify the key works.</p>
+                    <div class="rb">{
+  "valid": true,
+  "key_name": "Production Key",
+  "status_code": 200,
+  "latency_ms": 450,
+  "message": "Key is valid and working"
+}</div>
+                </div>
+            </div>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m get">GET</span><span class="ep-p">/api/dashboard/keys/health</span><span class="ep-d">Key health status</span></div>
+                <div class="ep-b">
+                    <p>Returns aggregate health status from the rotator.</p>
+                    <div class="rb">{
+  "total_keys": 3,
+  "healthy_keys": 2,
+  "keys": [
+    { "id": 1, "name": "Prod", "healthy": true, "consecutive_failures": 0, "total_requests": 150, "success_rate": 98.67 }
+  ]
+}</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD MODELS API -->
+        <section id="dashboard-models" class="docs-section">
+            <h2><i data-lucide="cpu" style="width:20px;height:20px"></i> Model Management API</h2>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m get">GET</span><span class="ep-p">/api/dashboard/models</span><span class="ep-d">List all models</span></div>
+                <div class="ep-b">
+                    <div class="rb">[{
+  "id": 1,
+  "name": "kimi-k2p6",
+  "fireworks_model_id": "accounts/fireworks/models/kimi-k2p6",
+  "display_name": "Kimi K2 Pro",
+  "description": "Fast instruction-following model",
+  "is_active": true,
+  "model_type": "chat",
+  "context_length": 131072,
+  "input_price": 0.0001,
+  "output_price": 0.0003,
+  "created_at": "2025-01-01T00:00:00"
+}]</div>
+                </div>
+            </div>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m post">POST</span><span class="ep-p">/api/dashboard/models</span><span class="ep-d">Create model</span></div>
+                <div class="ep-b">
+                    <table class="pt"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td>name</td><td>string</td><td><span class="req">REQUIRED</span> Internal name</td></tr>
+                        <tr><td>fireworks_model_id</td><td>string</td><td><span class="req">REQUIRED</span> Full Fireworks model ID</td></tr>
+                        <tr><td>display_name</td><td>string</td><td><span class="opt">OPTIONAL</span> User-facing name</td></tr>
+                        <tr><td>description</td><td>string</td><td><span class="opt">OPTIONAL</span> Model description</td></tr>
+                        <tr><td>model_type</td><td>string</td><td><span class="opt">OPTIONAL</span> One of: chat, completion, embedding, image</td></tr>
+                        <tr><td>context_length</td><td>integer</td><td><span class="opt">OPTIONAL</span> Max context window</td></tr>
+                        <tr><td>input_price</td><td>float</td><td><span class="opt">OPTIONAL</span> Cost per 1M input tokens</td></tr>
+                        <tr><td>output_price</td><td>float</td><td><span class="opt">OPTIONAL</span> Cost per 1M output tokens</td></tr>
+                        <tr><td>is_active</td><td>boolean</td><td><span class="opt">OPTIONAL</span> Default: true</td></tr>
+                    </tbody></table>
+                </div>
+            </div>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m put">PUT</span><span class="ep-p">/api/dashboard/models/:id</span><span class="ep-d">Update model</span></div>
+                <div class="ep-b"><p>Update any field. All fields optional.</p></div>
+            </div>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m delete">DELETE</span><span class="ep-p">/api/dashboard/models/:id</span><span class="ep-d">Delete model</span></div>
+                <div class="ep-b"><p>Permanently deletes a model.</p></div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD LOGS -->
+        <section id="dashboard-logs" class="docs-section">
+            <h2><i data-lucide="scroll-text" style="width:20px;height:20px"></i> Request Logs API</h2>
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m get">GET</span><span class="ep-p">/api/dashboard/logs?limit=100&offset=0</span><span class="ep-d">Paginated request logs</span></div>
+                <div class="ep-b">
+                    <table class="pt"><thead><tr><th>Param</th><th>Type</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td>limit</td><td>integer</td><td>Number of logs to return (default: 100)</td></tr>
+                        <tr><td>offset</td><td>integer</td><td>Pagination offset (default: 0)</td></tr>
+                    </tbody></table>
+                    <p>Each log entry contains: <code>id</code>, <code>request_id</code>, <code>api_key_id</code>, <code>model</code>, <code>endpoint</code>, <code>method</code>, <code>status_code</code>, <code>input_tokens</code>, <code>output_tokens</code>, <code>total_tokens</code>, <code>latency_ms</code>, <code>error_message</code>, <code>client_ip</code>, <code>user_agent</code>, <code>created_at</code>.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD STATS -->
+        <section id="dashboard-stats" class="docs-section">
+            <h2><i data-lucide="bar-chart-3" style="width:20px;height:20px"></i> Statistics API</h2>
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m get">GET</span><span class="ep-p">/api/dashboard/stats</span><span class="ep-d">Aggregated statistics</span></div>
+                <div class="ep-b">
+                    <div class="rb">{
+  "stats": {
+    "total_requests": 1250,
+    "successful_requests": 1230,
+    "failed_requests": 20,
+    "success_rate": 98.4,
+    "total_tokens": 1500000,
+    "input_tokens": 900000,
+    "output_tokens": 600000,
+    "avg_latency_ms": 450,
+    "total_cost": 0.27,
+    "active_keys": 3
+  },
+  "top_keys": [...],
+  "requests_by_endpoint": {
+    "/v1/chat/completions": 1000,
+    "/v1/messages": 250
+  },
+  "token_timeline": [
+    { "date": "2025-01-14", "input_tokens": 50000, "output_tokens": 30000, "total_tokens": 80000 }
+  ]
+}</div>
+                </div>
+            </div>
+        </section>
+        <!-- DASHBOARD BACKUP -->
+        <section id="dashboard-backup" class="docs-section">
+            <h2><i data-lucide="database" style="width:20px;height:20px"></i> Backup & Restore API</h2>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m post">POST</span><span class="ep-p">/api/dashboard/backup</span><span class="ep-d">Create backup</span></div>
+                <div class="ep-b">
+                    <table class="pt"><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+                    <tbody>
+                        <tr><td>include_logs</td><td>boolean</td><td><span class="opt">OPTIONAL</span> Include request logs (default: false). Warning: can produce large files.</td></tr>
+                    </tbody></table>
+                    <p>Creates a JSON backup with SHA-256 checksum. Stored in <code>data/backups/</code>.</p>
+                    <div class="rb">{ "message": "Backup created successfully", "filename": "backup_20250115_103000.json" }</div>
+                </div>
+            </div>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m get">GET</span><span class="ep-p">/api/dashboard/backup/list</span><span class="ep-d">List backups</span></div>
+                <div class="ep-b">
+                    <div class="rb">[
+  { "filename": "backup_20250115_103000.json", "size": 524288, "created_at": "2025-01-15T10:30:00" }
+]</div>
+                </div>
+            </div>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m post">POST</span><span class="ep-p">/api/dashboard/backup/restore</span><span class="ep-d">Restore from backup</span></div>
+                <div class="ep-b">
+                    <p><strong>Request:</strong> <code>{ "filename": "backup_20250115_103000.json" }</code></p>
+                    <div class="warn">
+                        <i data-lucide="alert-triangle" style="width:16px;height:16px"></i>
+                        <span>Restoring overwrites ALL current data. The key rotator is reloaded after restore.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD CONFIG -->
+        <section id="dashboard-config" class="docs-section">
+            <h2><i data-lucide="sliders" style="width:20px;height:20px"></i> Configuration API</h2>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m get">GET</span><span class="ep-p">/api/dashboard/config</span><span class="ep-d">Get all config</span></div>
+                <div class="ep-b"><p>Returns the full configuration dictionary.</p></div>
+            </div>
+
+            <div class="ep">
+                <div class="ep-h"><span class="ep-m put">PUT</span><span class="ep-p">/api/dashboard/config</span><span class="ep-d">Update config</span></div>
+                <div class="ep-b">
+                    <p>Send key-value pairs to update. Changes are persisted to <code>config.yaml</code> and the rate limiter is reloaded.</p>
+                    <div class="rb">{
+  "rotation.enabled": true,
+  "fireworks.timeout": 60,
+  "rate_limiting.enabled": false
+}</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENV VARS -->
+        <section id="env-vars" class="docs-section">
+            <h2><i data-lucide="file-lock" style="width:20px;height:20px"></i> Environment Variables</h2>
+            <p>Environment variables override <code>config.yaml</code> values.</p>
+            <table class="ct"><thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+                <tr><td>HOST</td><td>0.0.0.0</td><td>Server bind address</td></tr>
+                <tr><td>PORT</td><td>10736</td><td>Server bind port</td></tr>
+                <tr><td>DEBUG</td><td>False</td><td>Flask debug mode</td></tr>
+                <tr><td>DATABASE_PATH</td><td>data/database.db</td><td>SQLite database file path</td></tr>
+                <tr><td>DASHBOARD_USERNAME</td><td>admin</td><td>Dashboard login username</td></tr>
+                <tr><td>DASHBOARD_PASSWORD</td><td>macro</td><td>Dashboard login password</td></tr>
+                <tr><td>SECRET_KEY</td><td>change-this-secret-key-in-production</td><td>JWT signing secret</td></tr>
+                <tr><td>FIREWORKS_BASE_URL</td><td>https://api.fireworks.ai/inference/v1</td><td>Fireworks API base URL</td></tr>
+            </tbody></table>
+        </section>
+
+        <!-- CONFIG YAML -->
+        <section id="config-yaml" class="docs-section">
+            <h2><i data-lucide="file-text" style="width:20px;height:20px"></i> Config YAML Reference</h2>
+            <table class="ct"><thead><tr><th>Key</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+                <tr><td>server.host</td><td>0.0.0.0</td><td>Server bind address</td></tr>
+                <tr><td>server.port</td><td>10736</td><td>Server port</td></tr>
+                <tr><td>server.debug</td><td>false</td><td>Flask debug mode</td></tr>
+                <tr><td>database.path</td><td>data/database.db</td><td>SQLite path</td></tr>
+                <tr><td>database.auto_backup</td><td>true</td><td>Enable scheduled backups</td></tr>
+                <tr><td>database.backup_interval_hours</td><td>10</td><td>Hours between auto-backups</td></tr>
+                <tr><td>fireworks.base_url</td><td>https://api.fireworks.ai/inference/v1</td><td>Fireworks API URL</td></tr>
+                <tr><td>fireworks.timeout</td><td>60</td><td>HTTP request timeout (seconds)</td></tr>
+                <tr><td>fireworks.max_retries</td><td>3</td><td>Max retry attempts</td></tr>
+                <tr><td>rotation.enabled</td><td>true</td><td>Enable round-robin key rotation</td></tr>
+                <tr><td>rotation.health_check_interval</td><td>300</td><td>Seconds between health checks</td></tr>
+                <tr><td>rotation.auto_failover</td><td>true</td><td>Auto-skip failed keys</td></tr>
+                <tr><td>monitoring.enabled</td><td>true</td><td>Enable request monitoring</td></tr>
+                <tr><td>monitoring.detailed_logging</td><td>true</td><td>Log token usage and timing</td></tr>
+                <tr><td>monitoring.retention_days</td><td>30</td><td>Log retention period</td></tr>
+                <tr><td>security.require_dashboard_auth</td><td>true</td><td>Require JWT for dashboard</td></tr>
+                <tr><td>security.dashboard_username</td><td>admin</td><td>Login username</td></tr>
+                <tr><td>security.dashboard_password</td><td>macro</td><td>Login password</td></tr>
+                <tr><td>security.cors_enabled</td><td>true</td><td>Enable CORS</td></tr>
+                <tr><td>security.allowed_origins</td><td>["*"]</td><td>CORS origins</td></tr>
+                <tr><td>rate_limiting.enabled</td><td>false</td><td>Enable IP-based rate limiting</td></tr>
+                <tr><td>rate_limiting.requests_per_minute</td><td>60</td><td>Max requests per IP per minute</td></tr>
+                <tr><td>rate_limiting.requests_per_hour</td><td>1000</td><td>Max requests per IP per hour</td></tr>
+            </tbody></table>
+        </section>
+
+        <!-- DEPLOYMENT -->
+        <section id="deployment" class="docs-section">
+            <h2><i data-lucide="cloud" style="width:20px;height:20px"></i> Deployment</h2>
+            <h3>Production with Gunicorn</h3>
+            <div class="rb">gunicorn backend.app:app \
+  --bind 0.0.0.0:10736 \
+  --workers 4 \
+  --timeout 120 \
+  --access-logfile - \
+  --error-logfile -</div>
+
+            <h3>Production Checklist</h3>
+            <ul>
+                <li>Change <code>DASHBOARD_PASSWORD</code> from default <code>macro</code></li>
+                <li>Set a strong <code>SECRET_KEY</code> for JWT signing</li>
+                <li>Enable HTTPS via reverse proxy (nginx/caddy)</li>
+                <li>Restrict <code>security.allowed_origins</code> to your domains</li>
+                <li>Enable <code>rate_limiting.enabled</code> if exposed publicly</li>
+                <li>Set up external backup storage for <code>data/backups/</code></li>
+                <li>Monitor health via <code>/health</code> or <code>/healthz</code></li>
+            </ul>
+
+            <h3>Railway / Render</h3>
+            <p>The project includes <code>Procfile</code> and <code>railway.json</code> ready for deployment. Set environment variables in the platform dashboard.</p>
+
+            <h3>Reverse Proxy Example (nginx)</h3>
+            <div class="rb">server {
+    listen 443 ssl;
+    server_name api.example.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:10736;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_read_timeout 120s;
+    }
+}</div>
+        </section>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        const navLinks = document.querySelectorAll('.docs-nav a');
+        const sections = document.querySelectorAll('.docs-section');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    const link = document.querySelector(`.docs-nav a[href="#${entry.target.id}"]`);
+                    if (link) link.classList.add('active');
+                }
+            });
+        }, { rootMargin: '-20% 0px -70% 0px' });
+
+        sections.forEach(s => observer.observe(s));
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -89,6 +89,10 @@ def create_app():
     def settings_page():
         return send_from_directory(app.static_folder, "settings.html")
 
+    @app.route("/docs")
+    def docs_page():
+        return send_from_directory(app.static_folder, "docs.html")
+
     # Health check endpoint
     @app.route("/health")
     def health():
